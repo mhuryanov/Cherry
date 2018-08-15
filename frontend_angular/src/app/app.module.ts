@@ -19,7 +19,8 @@ import { ManagetagsComponent } from './admin/managetags/managetags.component';
 import { ManagetemplatesComponent } from './admin/managetemplates/managetemplates.component';
 import { ManagestatusComponent } from './admin/managestatus/managestatus.component';
 import { ManageactionsComponent } from './admin/manageactions/manageactions.component';
-
+import { StaffService } from './shared/services/staff.service';
+// import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -42,9 +43,12 @@ import { ManageactionsComponent } from './admin/manageactions/manageactions.comp
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    // NgbModule.forRoot()
   ],
   providers: [
-    ProfileService
+    ProfileService,
+    StaffService,
+    // NgbModal
   ],
   bootstrap: [AppComponent]
 })
