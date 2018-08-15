@@ -1,0 +1,39 @@
+.profile{
+    margin-top: 20px;
+    .avartar {
+        width: 100%;
+        border: solid 2px #888;
+        border-radius: 5px;
+        box-shadow: 5px 5px 30px -3px #555;
+    }
+    
+    .change-avartar-btn{
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .change-password-btn{
+        width: 100%;
+        margin-top: 20px;
+    }
+
+    .change-profile-btn{
+        width: 100%;
+        margin-top: 20px;
+        // color: white;
+    }
+
+    .change-pwd-div{
+        margin-top: 30px;
+    }
+
+    .description-textarea{
+        min-height: 300px;
+    }
+
+    .save-profile-btns{
+        margin-top: 20px;
+    }
+
+}
+
