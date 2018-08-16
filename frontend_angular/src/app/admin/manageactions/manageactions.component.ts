@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Action } from '../../shared/modules/action.model';
+import { ActionService } from '../../shared/services/action.service';
+
 
 @Component({
   selector: 'app-manageactions',
@@ -7,9 +10,35 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ManageactionsComponent implements OnInit {
 
-  constructor() { }
+  actionList: Action[];
+  newAction;
+  editAction: Action;
+  viewStatus = 0; // 0 : list, 1: add new, 2: edit
+
+  constructor(
+    private actionService: ActionService
+  ) {
+    this.actionList = actionService.getActionList();
+   }
 
   ngOnInit() {
+  }
+
+  addnewActionClick() {
+    this.viewStatus = 1;
+    this.newAction = {
+      name: ''
+    };
+  }
+
+  editActionClick(actionId) {
+    this.viewStatus = 2;
+    const me = this;
+    this.actionList.map(action => {
+      if (action.id === actionId) {
+        me.editAction = action;
+      }
+    });
   }
 
 }

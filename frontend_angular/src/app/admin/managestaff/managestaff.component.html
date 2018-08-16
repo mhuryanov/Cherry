@@ -69,6 +69,13 @@
           <input type="password" class="form-control" placeholder="Confirm Password">
         </div>
         <div class="form-group">
+          <label>Staff Role</label>
+          <select class="form-control">
+            <option value="1">Admin</option>
+            <option value="2">Staff</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label>Description</label>
           <textarea class="form-control" placeholder="Description" [(ngModel)]="newStaff.description"></textarea>
         </div>
@@ -112,6 +119,13 @@
       <div class="form-group">
         <label>Confirm Password</label>
         <input type="password" class="form-control" placeholder="Confirm Password">
+      </div>
+      <div class="form-group">
+        <label>Staff Role</label>
+        <select class="form-control" [(ngModel)]="editStaff.role">
+          <option value="1">Admin</option>
+          <option value="2">Staff</option>
+        </select>
       </div>
       <div class="form-group">
         <label>Description</label>

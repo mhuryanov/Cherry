@@ -1,3 +1,57 @@
-<p>
-  manageactions works!
-</p>
+<div class="manageaction">
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn btn-success" (click)="addnewActionClick()">Add New Action</button>
+    </div>
+  </div>
+  <div class="row actionlist-table">
+    <div class="col-md-6">
+      <table class="table table-hover table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Action</th>
+            <th scope="col">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let action of actionList; let i = index">
+            <th scope="row">{{i + 1}}</th>
+
+            <td>{{action.name}}</td>
+            <td>
+              <button class="btn btn-success" (click)="editActionClick(action.id)">Edit</button>
+              <button class="btn btn-danger">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-md-6">
+      <div class="row addnewtag" *ngIf="viewStatus == 1">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Action</label>
+            <input type="text" class="form-control" placeholder="Enter Action" [(ngModel)]="newAction.name">
+          </div>
+
+          <button class="btn btn-success">Add New Action</button>
+          <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
+        </div>
+      </div>
+
+      <div class="row edittag" *ngIf="viewStatus == 2">
+        <div class="col-md-12">
+          <div class="form-group">
+            <label>Action</label>
+            <input type="text" class="form-control" placeholder="Enter Action" [(ngModel)]="editAction.name">
+          </div>
+
+          <button class="btn btn-success">Save Action</button>
+          <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

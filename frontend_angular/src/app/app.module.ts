@@ -20,6 +20,10 @@ import { ManagetemplatesComponent } from './admin/managetemplates/managetemplate
 import { ManagestatusComponent } from './admin/managestatus/managestatus.component';
 import { ManageactionsComponent } from './admin/manageactions/manageactions.component';
 import { StaffService } from './shared/services/staff.service';
+import { TagService } from './shared/services/tag.service';
+import { TemplateService } from './shared/services/template.service';
+import { StatusService } from './shared/services/status.service';
+import { ActionService } from './shared/services/action.service';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -48,6 +52,10 @@ import { StaffService } from './shared/services/staff.service';
   providers: [
     ProfileService,
     StaffService,
+    TagService,
+    TemplateService,
+    StatusService,
+    ActionService
     // NgbModal
   ],
   bootstrap: [AppComponent]
