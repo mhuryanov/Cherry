@@ -18,7 +18,12 @@ export class ManageactionsComponent implements OnInit {
   constructor(
     private actionService: ActionService
   ) {
-    this.actionList = actionService.getActionList();
+    var me = this;
+    actionService.getActionList().subscribe(data => {
+      data.data.map(action => {
+        me.actionList.push(action);
+      });
+    });
    }
 
   ngOnInit() {
