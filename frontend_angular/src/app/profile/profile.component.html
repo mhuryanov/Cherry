@@ -3,9 +3,10 @@
     <div class="col-md-5">
     <img [src]="profile.avartar" class="avartar" *ngIf="isLoadedProfile">
       
-      <div class="btn btn-success change-avartar-btn">Change Avartar</div>
+      <div class="btn btn-success change-avartar-btn" (click)="clickChangeAvartar()">Change Avartar</div>
+      <input type="file" accept=".jpg, .png, .jpeg" id="profile-imgage-upload" style="display: none;" (change)="fileChange($event)">
       <div class="btn btn-danger change-password-btn" (click)="isChangePassword = true">Change Password</div>
-      <div class="btn btn-primary change-profile-btn" (click)="isEditProfile = true">Edit Profile</div>
+      <div class="btn btn-primary change-profile-btn" (click)="clickEditProfile()">Edit Profile</div>
     </div>
     <div class="col-md-7" *ngIf="isLoadedProfile">
       <div class="profile-info">
@@ -15,7 +16,7 @@
           </div>
           <div class="col-md-6">
             <h3 *ngIf="!isEditProfile">{{profile.name}}</h3>
-            <input [(ngModel)]="profile.name" *ngIf="isEditProfile" class="form-control" placeholder="Name"/>
+            <input [(ngModel)]="editprofile.name" *ngIf="isEditProfile" class="form-control" placeholder="Name"/>
           </div>
         </div>
 
@@ -25,7 +26,7 @@
           </div>
           <div class="col-md-6">
             <h3 *ngIf="!isEditProfile">{{profile.email}}</h3>
-            <input [(ngModel)]="profile.email" *ngIf="isEditProfile" class="form-control" placeholder="Email" />
+            <input [(ngModel)]="editprofile.email" *ngIf="isEditProfile" class="form-control" placeholder="Email" />
           </div>
         </div>
 
@@ -35,7 +36,7 @@
           </div>
           <div class="col-md-6">
             <h3 *ngIf="!isEditProfile">{{profile.phone}}</h3>
-            <input [(ngModel)]="profile.phone" *ngIf="isEditProfile" class="form-control" placeholder="Phone" />
+            <input [(ngModel)]="editprofile.phone" *ngIf="isEditProfile" class="form-control" placeholder="Phone" />
           </div>
         </div>
 
@@ -45,13 +46,13 @@
           </div>
           <div class="col-md-12">
             <div *ngIf="!isEditProfile">{{profile.description}}</div>
-            <textarea [(ngModel)]="profile.description" *ngIf="isEditProfile" class="form-control description-textarea" placeholder="Description"></textarea>
+            <textarea [(ngModel)]="editprofile.description" *ngIf="isEditProfile" class="form-control description-textarea" placeholder="Description"></textarea>
           </div>
         </div>
 
         <div class="row save-profile-btns" *ngIf="isEditProfile">
           <div class="col-md-12">
-            <div class="btn btn-success">Save Profile</div>
+            <div class="btn btn-success" (click)="clickSaveProfile()">Save Profile</div>
             <div class="btn btn-danger" (click)="isEditProfile = false">Cancel</div>
           </div>
         </div>
@@ -59,19 +60,22 @@
 
       <div class="change-pwd-div" *ngIf="isChangePassword">
         <div class="form-group">
+          <label class="text-danger" *ngIf="isNotMatchedPasswords">Passwords are not Matched!</label>
+        </div>
+        <div class="form-group">
           <label>Current Password:</label>
-          <input type="password" class="form-control" placeholder="Current Password">
+          <input type="password" class="form-control" placeholder="Current Password" [(ngModel)]="changePassword.current">
         </div>
         <div class="form-group">
           <label>New Password:</label>
-          <input type="password" class="form-control" placeholder="New Password">
+          <input type="password" class="form-control" placeholder="New Password" [(ngModel)]="changePassword.new">
         </div>
         <div class="form-group">
           <label>Confirm Password:</label>
-          <input type="password" class="form-control" placeholder="Confirm Password">
+          <input type="password" class="form-control" placeholder="Confirm Password" [(ngModel)]="changePassword.confirm">
         </div>
-        <button type="button" class="btn btn-danger">Change Password</button>
-        <button type="button" class="btn btn-primary" (click)="isChangePassword = false">Close</button>
+        <button type="button" class="btn btn-danger" (click)="clickChangePassword()">Change Password</button>
+        <button type="button" class="btn btn-primary" (click)="clickCancelChangePassword()">Close</button>
       </div>
 
     </div>

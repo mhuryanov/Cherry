@@ -48,8 +48,6 @@ users.post('/register', function(req, res) {
 users.post('/login', function(req, res) {
 
     var appData = {};
-    
-    console.log(req.body);
     if (typeof req.body.email === 'undefined' || typeof req.body.password === 'undefined')
     {
         appData["error"] = 1;
@@ -194,6 +192,65 @@ users.get('/getUsers', function(req, res) {
                 } else {
                     appData["data"] = "No data found";
                     res.status(204).json(appData);
+                }
+            });
+            connection.release();
+        }
+    });
+});
+
+users.post('/changepassword', function (req, res) {
+    var appData = {};
+    console.log('changepassword');
+    
+    console.log(req.body);
+    
+    if (typeof req.body.current === 'undefined' || typeof req.body.new === 'undefined') {
+        appData["error"] = 1;
+        appData["data"] = "Parameters are not matched!";
+        res.status(500).json(appData);
+        return;
+    }
+    var currentpwd = req.body.current;
+    var newpwd = req.body.new;
+    var userId = req.body.id;
+
+    database.connection.getConnection(function(err, connection){
+        if (err) {
+            appData["error"] = 1;
+            appData["data"] = "Internal Server Error";
+            res.status(500).json(appData);
+        } else {
+            connection.query('SELECT *FROM users WHERE id="' + userId + '"', function (err, rows, fields) {
+                if (err) {
+                    appData["error"] = 0;
+                    appData["data"] = "Database transactio error!";
+                    res.status(200).json(appData);
+                } else {
+                  if (rows.length > 0) {
+                      if (rows[0].password == currentpwd) {
+                        connection.query('UPDATE users set password="' + newpwd + '" WHERE id="' + userId + '"', function(err, rows, fields){
+                            if(err){
+                                console.log(err);
+                                appData["error"] = 0;
+                                appData["data"] = "error";
+                                res.status(200).json(appData);
+                                return;
+                            }
+                            appData["error"] = 1;
+                            appData["data"] = "password is updated.";
+                            res.status(200).json(appData);
+                        });
+                      } else {
+                          appData.error = 1;
+                          appData["data"] = "Password does not match";
+                          res.status(204).json(appData);
+                      }
+                  } else {
+                      appData.error = 1;
+                      appData["data"] = "Email does not exists!";
+                      res.status(204).json(appData);
+                  }
                 }
             });
             connection.release();
