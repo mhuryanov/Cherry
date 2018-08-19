@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { StaffService } from '../../shared/services/staff.service';
 import { Staff } from '../../shared/modules/staff.model';
+import { ProfileService } from '../../shared/services/profile.service';
+import { config } from '../../shared/modules/config.model';
 
 
 @Component({
@@ -11,17 +13,24 @@ import { Staff } from '../../shared/modules/staff.model';
 })
 export class ManagestaffComponent implements OnInit {
 
-  staffList: Staff[];
+  staffList = [];
   newStaff;
   editStaff;
 
   viewStatus = 0; // 0: list, 1: add, 2: edit
+  confirmPassword = '';
+  isNotPasswordMatched = false;
 
   constructor(
     private staffService: StaffService,
+    private profileService: ProfileService
   ) {
-    this.staffList = staffService.getStaffList();
-    console.log(this.staffList);
+    staffService.getStaffList().subscribe(data => {
+      data.data.map(staff => {
+        this.staffList.push(staff);
+      });
+    });
+    // console.log(this.staffList);
   }
 
   ngOnInit() {
@@ -35,7 +44,8 @@ export class ManagestaffComponent implements OnInit {
       phone: '',
       avartar: '../assets/default-user.png',
       description: '',
-      role: 2
+      role: 2,
+      password: ''
     };
   }
 
@@ -49,7 +59,6 @@ export class ManagestaffComponent implements OnInit {
     this.staffList.map(staff => {
       if (staff.id === staffId) {
         me.editStaff = staff;
-        console.log(staff);
       }
     });
   }
@@ -58,5 +67,59 @@ export class ManagestaffComponent implements OnInit {
     this.viewStatus = 0;
   }
 
+  clickAddNewStaff() {
+    if (this.newStaff.password !== this.confirmPassword) {
+      this.isNotPasswordMatched = true;
+      return;
+    }
 
+    this.isNotPasswordMatched = false;
+
+    this.staffService.addNewStaff(this.newStaff).subscribe(data => {
+      this.viewStatus = 0;
+      this.staffList = [];
+      this.staffService.getStaffList().subscribe(data1 => {
+        data1.data.map(staff => {
+          this.staffList.push(staff);
+        });
+      });
+    });
+  }
+
+  clickEditStaff() {
+    var me = this;
+    this.staffService.editStaff(this.editStaff).subscribe(data => {
+      console.log(data);
+      me.viewStatus = 0;
+    });
+  }
+
+  clickChangeAvartar() {
+    document.getElementById('profile-imgage-upload').click();
+  }
+
+  fileChange(event) {
+    var me = this;
+    let fileList: FileList = event.target.files;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData: FormData = new FormData();
+      formData.append('photo', file, file.name);
+
+      this.profileService.uploadProfileImage(formData).subscribe((data: any) => {
+        // this.profile.avartar = config.baseURL + data.url;
+        // this.profileService.editProfile(this.profile).subscribe(data => {
+        //    console.log(data);
+        // });
+
+        if (me.viewStatus === 1) {
+          this.newStaff.avartar = config.baseURL + data.url;
+        }
+
+        if (me.viewStatus === 2) {
+          this.editStaff.avartar = config.baseURL + data.url;
+        }
+      });
+    }
+  }
 }

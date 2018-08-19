@@ -44,10 +44,13 @@
     <div class="row">
       <div class="col-md-5">
         <img [src]="newStaff.avartar" class="newavartar">
-        
-        <div class="btn btn-success upload-avartar-btn">Upload Avartar</div>
+        <div class="btn btn-success upload-avartar-btn" (click)="clickChangeAvartar()">Upload Avartar</div>
+        <input type="file" accept=".jpg, .png, .jpeg" id="profile-imgage-upload" style="display: none;" (change)="fileChange($event)"> 
       </div>
       <div class="col-md-7">
+        <div class="form-group">
+          <label class="text-danger" *ngIf="isNotPasswordMatched">Password is not matched!</label>
+        </div>
         <div class="form-group">
           <label>Name</label>
           <input type="text" class="form-control" placeholder="Enter Name" [(ngModel)]="newStaff.name">
@@ -62,15 +65,15 @@
         </div>
         <div class="form-group">
           <label>Password</label>
-          <input type="password" class="form-control" placeholder="Password">
+          <input type="password" class="form-control" placeholder="Password" [(ngModel)]="newStaff.password">
         </div>
         <div class="form-group">
           <label>Confirm Password</label>
-          <input type="password" class="form-control" placeholder="Confirm Password">
+          <input type="password" class="form-control" placeholder="Confirm Password" [(ngModel)]="confirmPassword">
         </div>
         <div class="form-group">
           <label>Staff Role</label>
-          <select class="form-control">
+          <select class="form-control" [(ngModel)]="newStaff.role">
             <option value="1">Admin</option>
             <option value="2">Staff</option>
           </select>
@@ -80,7 +83,7 @@
           <textarea class="form-control" placeholder="Description" [(ngModel)]="newStaff.description"></textarea>
         </div>
 
-        <button class="btn btn-success" >Add New Staff</button>
+        <button class="btn btn-success" (click)="clickAddNewStaff()">Add New Staff</button>
         <button class="btn btn-danger" (click)="cancelStaffAdd()">Cancel</button>
       </div>
     </div>
@@ -91,8 +94,8 @@
   <div class="row">
     <div class="col-md-5">
       <img [src]="editStaff.avartar" class="editavartar">
-
-      <div class="btn btn-success change-avartar-btn">Change Avartar</div>
+      <div class="btn btn-success change-avartar-btn" (click)="clickChangeAvartar()">Change Avartar</div>
+      <input type="file" accept=".jpg, .png, .jpeg" id="profile-imgage-upload" style="display: none;" (change)="fileChange($event)">
     </div>
     <div class="col-md-7">
       <div class="form-group">
@@ -109,16 +112,8 @@
       </div>
 
       <div class="form-group">
-        <label>Old Password</label>
-        <input type="password" class="form-control" placeholder="Old Password">
-      </div>
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" class="form-control" placeholder="New Password">
-      </div>
-      <div class="form-group">
-        <label>Confirm Password</label>
-        <input type="password" class="form-control" placeholder="Confirm Password">
+        <label>Password</label>
+        <input type="password" class="form-control" placeholder="Password" [(ngModel)]="editStaff.password">
       </div>
       <div class="form-group">
         <label>Staff Role</label>
@@ -132,7 +127,7 @@
         <textarea class="form-control" placeholder="Description" [(ngModel)]="editStaff.description"></textarea>
       </div>
 
-      <button class="btn btn-success">Edit Staff</button>
+      <button class="btn btn-success" (click)="clickEditStaff()">Edit Staff</button>
       <button class="btn btn-danger" (click)="cancelStaffEdit()">Cancel</button>
     </div>
   </div>
