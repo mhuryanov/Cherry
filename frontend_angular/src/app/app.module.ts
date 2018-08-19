@@ -24,6 +24,8 @@ import { TagService } from './shared/services/tag.service';
 import { TemplateService } from './shared/services/template.service';
 import { StatusService } from './shared/services/status.service';
 import { ActionService } from './shared/services/action.service';
+import { AuthguardService } from './shared/services/authguard.service';
+import { LoginService } from './shared/services/login.service';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -55,7 +57,9 @@ import { ActionService } from './shared/services/action.service';
     TagService,
     TemplateService,
     StatusService,
-    ActionService
+    ActionService,
+    AuthguardService,
+    LoginService
     // NgbModal
   ],
   bootstrap: [AppComponent]

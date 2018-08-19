@@ -11,6 +11,7 @@ import { ManagetagsComponent } from './admin/managetags/managetags.component';
 import { ManagetemplatesComponent } from './admin/managetemplates/managetemplates.component';
 import { ManagestatusComponent } from './admin/managestatus/managestatus.component';
 import { ManageactionsComponent } from './admin/manageactions/manageactions.component';
+import { AuthguardService } from './shared/services/authguard.service';
 
 const routes: Routes = [
     {
@@ -20,6 +21,7 @@ const routes: Routes = [
     {
         component: DashboardComponent,
         path: 'dashboard',
+        canActivate: [AuthguardService],
         children: [{
                 component: HomeComponent,
                 path: 'home'
