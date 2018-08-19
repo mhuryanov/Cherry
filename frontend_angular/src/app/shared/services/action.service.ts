@@ -16,16 +16,16 @@ export class ActionService {
     this.header = new HttpHeaders({ 'token': this.token });
    }
 
-  getStatusList() {
+  getActionList() {
     return this.http.get(config.baseURL + 'api/' + this.table_name, { headers: this.header });
   }
 
-  addNewStatus(newStatus) {
-    return this.http.post(config.baseURL + 'api/' + this.table_name, newStatus, { headers: this.header });
+  addNewAction(newAction) {
+    return this.http.post(config.baseURL + 'api/' + this.table_name, newAction, { headers: this.header });
   }
 
-  editStatus(editStatus) {
-    return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editStatus.id, editStatus, { headers: this.header });
+  editStatus(editAction) {
+    return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editAction.id, editAction, { headers: this.header });
   }
 
 }
