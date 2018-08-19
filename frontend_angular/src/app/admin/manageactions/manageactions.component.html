@@ -36,7 +36,7 @@
             <input type="text" class="form-control" placeholder="Enter Action" [(ngModel)]="newAction.name">
           </div>
 
-          <button class="btn btn-success">Add New Action</button>
+          <button class="btn btn-success" (click)="clickAddNewAction()">Add New Action</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>
@@ -48,7 +48,7 @@
             <input type="text" class="form-control" placeholder="Enter Action" [(ngModel)]="editAction.name">
           </div>
 
-          <button class="btn btn-success">Save Action</button>
+          <button class="btn btn-success" (click)="clickSaveAction()">Save Action</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>

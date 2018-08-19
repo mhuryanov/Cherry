@@ -24,7 +24,7 @@ export class ActionService {
     return this.http.post(config.baseURL + 'api/' + this.table_name, newAction, { headers: this.header });
   }
 
-  editStatus(editAction) {
+  editAction(editAction) {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editAction.id, editAction, { headers: this.header });
   }
 

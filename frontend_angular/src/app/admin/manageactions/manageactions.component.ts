@@ -10,7 +10,7 @@ import { ActionService } from '../../shared/services/action.service';
 })
 export class ManageactionsComponent implements OnInit {
 
-  actionList: Action[];
+  actionList = [];
   newAction;
   editAction: Action;
   viewStatus = 0; // 0 : list, 1: add new, 2: edit
@@ -43,6 +43,32 @@ export class ManageactionsComponent implements OnInit {
       if (action.id === actionId) {
         me.editAction = action;
       }
+    });
+  }
+
+  clickAddNewAction() {
+    var me = this;
+    this.actionService.addNewAction(this.newAction).subscribe(data => {
+      me.actionList = [];
+      me.viewStatus = 0;
+      me.actionService.getActionList().subscribe(data1 => {
+        data1.data.map(action => {
+          me.actionList.push(action);
+        });
+      });
+    });
+  }
+
+  clickSaveAction() {
+    var me = this;
+    this.actionService.editAction(this.editAction).subscribe(data => {
+      me.actionList = [];
+      me.viewStatus = 0;
+      me.actionService.getActionList().subscribe(data1 => {
+        data1.data.map(action => {
+          me.actionList.push(action);
+        });
+      });
     });
   }
 
