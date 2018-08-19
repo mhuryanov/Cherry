@@ -36,7 +36,7 @@
             <input type="text" class="form-control" placeholder="Enter Name" [(ngModel)]="newTag.name">
           </div>
 
-          <button class="btn btn-success">Add New Tag</button>
+          <button class="btn btn-success" (click)="clickAddNewTag()">Add New Tag</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>
@@ -48,7 +48,7 @@
             <input type="text" class="form-control" placeholder="Enter Name" [(ngModel)]="editTag.name">
           </div>
 
-          <button class="btn btn-success">Save Tag</button>
+          <button class="btn btn-success" (click)="clickSaveTag()">Save Tag</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>

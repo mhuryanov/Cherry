@@ -9,7 +9,7 @@ import { Tag } from '../../shared/modules/tag.model';
 })
 export class ManagetagsComponent implements OnInit {
 
-  tagList: Tag[];
+  tagList = [];
   newTag;
   editTag: Tag;
   viewStatus = 0; // 0 : list, 1: add new, 2: edit
@@ -17,7 +17,12 @@ export class ManagetagsComponent implements OnInit {
   constructor(
     private tagService: TagService
   ) {
-    this.tagList = tagService.getTagList();
+    var me = this;
+    tagService.getTagList().subscribe(data => {
+      data.data.map(tag => {
+        me.tagList.push(tag);
+      });
+    });
   }
 
   ngOnInit() {
@@ -37,6 +42,32 @@ export class ManagetagsComponent implements OnInit {
       if (tag.id ===  tagId) {
         me.editTag = tag;
       }
+    });
+  }
+
+  clickAddNewTag () {
+    var me = this;
+    this.tagService.addNewTag(this.newTag).subscribe(data => {
+      me.viewStatus = 0;
+      me.tagList = [];
+      me.tagService.getTagList().subscribe(data1 => {
+        data1.data.map(tag => {
+          me.tagList.push(tag);
+        });
+      });
+    });
+  }
+
+  clickSaveTag() {
+    var me = this;
+    this.tagService.editTag(this.editTag).subscribe(data => {
+      me.viewStatus = 0;
+      me.tagList = [];
+      me.tagService.getTagList().subscribe(data1 => {
+        data1.data.map(tag => {
+          me.tagList.push(tag);
+        });
+      });
     });
   }
 
