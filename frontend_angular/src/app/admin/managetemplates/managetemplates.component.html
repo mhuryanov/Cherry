@@ -36,7 +36,7 @@
             <input type="text" class="form-control" placeholder="Enter Template" [(ngModel)]="newTemplate.name">
           </div>
 
-          <button class="btn btn-success">Add New Template</button>
+          <button class="btn btn-success" (click)="clickAddNewTemplate()">Add New Template</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>
@@ -48,7 +48,7 @@
             <input type="text" class="form-control" placeholder="Enter Template" [(ngModel)]="editTemplate.name">
           </div>
 
-          <button class="btn btn-success">Save Template</button>
+          <button class="btn btn-success" (click)="clickSaveTemplate()">Save Template</button>
           <button class="btn btn-danger" (click)="viewStatus = 0">Cancel</button>
         </div>
       </div>

@@ -9,7 +9,7 @@ import { Template } from '../../shared/modules/template.model';
 })
 export class ManagetemplatesComponent implements OnInit {
 
-  templateList: Template[];
+  templateList = [];
   newTemplate;
   editTemplate: Template;
   viewStatus = 0; // 0 : list, 1: add new, 2: edit
@@ -17,7 +17,12 @@ export class ManagetemplatesComponent implements OnInit {
   constructor(
     private templateService: TemplateService
   ) {
-    this.templateList = templateService.getTemplateList();
+    var me = this;
+    templateService.getTemplateList().subscribe(data => {
+      data.data.map(template => {
+        me.templateList.push(template);
+      });
+    });
    }
 
   ngOnInit() {
@@ -37,6 +42,32 @@ export class ManagetemplatesComponent implements OnInit {
       if (template.id === templateId) {
         me.editTemplate = template;
       }
+    });
+  }
+
+  clickAddNewTemplate() {
+    var me = this;
+    this.templateService.addNewTemplate(this.newTemplate).subscribe(data => {
+      me.viewStatus = 0;
+      me.templateList = [];
+      me.templateService.getTemplateList().subscribe(data1 => {
+        data1.data.map(template => {
+          me.templateList.push(template);
+        });
+      });
+    });
+  }
+
+  clickSaveTemplate() {
+    var me = this;
+    this.templateService.editTemplate(this.editTemplate).subscribe(data => {
+      me.viewStatus = 0;
+      me.templateList = [];
+      me.templateService.getTemplateList().subscribe(data1 => {
+        data1.data.map(template => {
+          me.templateList.push(template);
+        });
+      });
     });
   }
 
