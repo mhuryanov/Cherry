@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
 
   activeURL = '/dashboard/home';
   profile: Profile;
+  isLoadedProfile = false;
 
   constructor(
     private router: Router,
@@ -24,8 +25,20 @@ export class HeaderComponent implements OnInit {
       this.activeURL = location.path();
     });
 
-    this.profile = profileService.getProfile();
-    console.log(this.profile);
+    profileService.getProfile().subscribe(data => {
+      var me = this;
+      this.profileService.getProfile().subscribe(data => {
+        me.profile = {
+          name: data.data[0].name,
+          email: data.data[0].email,
+          phone: data.data[0].phone,
+          avartar: data.data[0].avartar,
+          description: data.data[0].description
+        };
+        this.isLoadedProfile = true;
+      });
+    });
+    
    }
 
   ngOnInit() {

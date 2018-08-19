@@ -5,8 +5,8 @@
     <div class="left-item" [ngClass]="{'active': activeURL=='/dashboard/admin/managestaff'}" (click)="goto('/dashboard/admin/managestaff')">Admin</div>
   </div>
   <div class="right-items">
-    <div class="user" (click)="goto('/dashboard/profile')">
-      <img [src]="profile.avartar" class="avartar">
+    <div class="user" (click)="goto('/dashboard/profile')" *ngIf="isLoadedProfile">
+      <img [src]="profile.avartar" class="avartar" >
       <div class="username" >{{profile.name}}</div>
     </div>
     <div class="logout" (click)="logout()">Log Out</div>

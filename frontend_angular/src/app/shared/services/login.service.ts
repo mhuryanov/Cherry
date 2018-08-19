@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { config} from '../modules/config.model';
 
 @Injectable()
 export class LoginService {
 
   token;
-  baseURL = 'http://localhost:3000/';
 
   constructor(
     private http: HttpClient
@@ -14,7 +14,7 @@ export class LoginService {
   }
 
   login(userInfo) {
-    return this.http.post(this.baseURL + 'users/login', userInfo);
+    return this.http.post(config.baseURL + 'users/login', userInfo);
   }
 
 }

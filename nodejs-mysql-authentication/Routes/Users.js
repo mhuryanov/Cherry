@@ -94,6 +94,7 @@ users.post('/login', function(req, res) {
 
                             appData.error = 0;
                             appData["token"] = token;
+                            appData["user"] = rows[0];
                             res.status(200).json(appData);
                         } else {
                             appData.error = 1;
