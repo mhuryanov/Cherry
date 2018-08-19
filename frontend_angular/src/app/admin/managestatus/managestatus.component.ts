@@ -9,7 +9,7 @@ import { StatusService } from '../../shared/services/status.service';
 })
 export class ManagestatusComponent implements OnInit {
 
-  statusList: Status[];
+  statusList = [];
   newStatus;
   editStatus: Status;
   viewStatus = 0; // 0 : list, 1: add new, 2: edit
@@ -17,7 +17,12 @@ export class ManagestatusComponent implements OnInit {
   constructor(
     private statusService: StatusService
   ) {
-    this.statusList = statusService.getStatusList();
+    var me = this;
+    statusService.getStatusList().subscribe(data => {
+      data.data.map(status => {
+        me.statusList.push(status);
+      });
+    });
   }
 
   ngOnInit() {
@@ -37,6 +42,32 @@ export class ManagestatusComponent implements OnInit {
       if (status.id === statusId) {
         me.editStatus = status;
       }
+    });
+  }
+
+  clickAddNewStatus() {
+    var me = this;
+    this.statusService.addNewStatus(this.newStatus).subscribe(data => {
+      me.viewStatus = 0;
+      me.statusList = [];
+      me.statusService.getStatusList().subscribe(data1 => {
+        data1.data.map(status => {
+          me.statusList.push(status);
+        });
+      });
+    });
+  }
+
+  clickSaveStatus() {
+    var me = this;
+    this.statusService.editStatus(this.editStatus).subscribe(data => {
+      me.viewStatus = 0;
+      me.statusList = [];
+      me.statusService.getStatusList().subscribe(data1 => {
+        data1.data.map(status => {
+          me.statusList.push(status);
+        });
+      });
     });
   }
 
