@@ -83,9 +83,15 @@ users.post('/login', function(req, res) {
                 } else {
                     if (rows.length > 0) {
                         if (rows[0].password == password) {
+                            
                             let token = jwt.sign(rows[0], process.env.SECRET_KEY, {
                                 expiresIn: 1440
                             });
+
+                            connection.query('UPDATE `users` SET token="'+ token +'" WHERE id="'+ rows[0].id +'"', function(error){
+                                console.log(error);
+                            });
+
                             appData.error = 0;
                             appData["token"] = token;
                             res.status(200).json(appData);

@@ -26,6 +26,7 @@ import { StatusService } from './shared/services/status.service';
 import { ActionService } from './shared/services/action.service';
 import { AuthguardService } from './shared/services/authguard.service';
 import { LoginService } from './shared/services/login.service';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -49,6 +50,7 @@ import { LoginService } from './shared/services/login.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule
     // NgbModule.forRoot()
   ],
   providers: [
