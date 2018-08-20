@@ -27,13 +27,13 @@ export class HeaderComponent implements OnInit {
 
     profileService.getProfile().subscribe(data => {
       var me = this;
-      this.profileService.getProfile().subscribe(data => {
+      this.profileService.getProfile().subscribe(data1 => {
         me.profile = {
-          name: data.data[0].name,
-          email: data.data[0].email,
-          phone: data.data[0].phone,
-          avartar: data.data[0].avartar,
-          description: data.data[0].description
+          name: data1['data'][0].name,
+          email: data1['data'][0].email,
+          phone: data1['data'][0].phone,
+          avartar: data1['data'][0].avartar,
+          description: data1['data'][0].description
         };
         this.isLoadedProfile = true;
       });

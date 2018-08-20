@@ -19,7 +19,7 @@ export class ManagestatusComponent implements OnInit {
   ) {
     var me = this;
     statusService.getStatusList().subscribe(data => {
-      data.data.map(status => {
+      data['data'].map(status => {
         me.statusList.push(status);
       });
     });
@@ -51,7 +51,7 @@ export class ManagestatusComponent implements OnInit {
       me.viewStatus = 0;
       me.statusList = [];
       me.statusService.getStatusList().subscribe(data1 => {
-        data1.data.map(status => {
+        data1['data'].map(status => {
           me.statusList.push(status);
         });
       });
@@ -64,7 +64,7 @@ export class ManagestatusComponent implements OnInit {
       me.viewStatus = 0;
       me.statusList = [];
       me.statusService.getStatusList().subscribe(data1 => {
-        data1.data.map(status => {
+        data1['data'].map(status => {
           me.statusList.push(status);
         });
       });

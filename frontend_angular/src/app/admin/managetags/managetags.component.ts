@@ -19,7 +19,7 @@ export class ManagetagsComponent implements OnInit {
   ) {
     var me = this;
     tagService.getTagList().subscribe(data => {
-      data.data.map(tag => {
+      data['data'].map(tag => {
         me.tagList.push(tag);
       });
     });
@@ -51,7 +51,7 @@ export class ManagetagsComponent implements OnInit {
       me.viewStatus = 0;
       me.tagList = [];
       me.tagService.getTagList().subscribe(data1 => {
-        data1.data.map(tag => {
+        data1['data'].map(tag => {
           me.tagList.push(tag);
         });
       });
@@ -64,7 +64,7 @@ export class ManagetagsComponent implements OnInit {
       me.viewStatus = 0;
       me.tagList = [];
       me.tagService.getTagList().subscribe(data1 => {
-        data1.data.map(tag => {
+        data1['data'].map(tag => {
           me.tagList.push(tag);
         });
       });

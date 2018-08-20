@@ -47,11 +47,11 @@ export class LoginComponent implements OnInit {
         return;
       }
 
-      if (data.error === 0 ) {
+      if (data['error'] === 0 ) {
         this.isResError = false;
-        this.loginService.token = data.token;
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('userId', data.user.id);
+        this.loginService.token = data['token'];
+        localStorage.setItem('token', data['token']);
+        localStorage.setItem('userId', data['user'].id);
         this.router.navigate(['/dashboard/home']);
       }
 

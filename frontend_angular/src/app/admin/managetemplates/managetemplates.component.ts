@@ -19,7 +19,7 @@ export class ManagetemplatesComponent implements OnInit {
   ) {
     var me = this;
     templateService.getTemplateList().subscribe(data => {
-      data.data.map(template => {
+      data['data'].map(template => {
         me.templateList.push(template);
       });
     });
@@ -51,7 +51,7 @@ export class ManagetemplatesComponent implements OnInit {
       me.viewStatus = 0;
       me.templateList = [];
       me.templateService.getTemplateList().subscribe(data1 => {
-        data1.data.map(template => {
+        data1['data'].map(template => {
           me.templateList.push(template);
         });
       });
@@ -64,7 +64,7 @@ export class ManagetemplatesComponent implements OnInit {
       me.viewStatus = 0;
       me.templateList = [];
       me.templateService.getTemplateList().subscribe(data1 => {
-        data1.data.map(template => {
+        data1['data'].map(template => {
           me.templateList.push(template);
         });
       });

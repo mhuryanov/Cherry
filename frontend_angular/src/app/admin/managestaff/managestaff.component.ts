@@ -26,7 +26,7 @@ export class ManagestaffComponent implements OnInit {
     private profileService: ProfileService
   ) {
     staffService.getStaffList().subscribe(data => {
-      data.data.map(staff => {
+      data['data'].map(staff => {
         this.staffList.push(staff);
       });
     });
@@ -79,7 +79,7 @@ export class ManagestaffComponent implements OnInit {
       this.viewStatus = 0;
       this.staffList = [];
       this.staffService.getStaffList().subscribe(data1 => {
-        data1.data.map(staff => {
+        data1['data'].map(staff => {
           this.staffList.push(staff);
         });
       });
@@ -107,11 +107,6 @@ export class ManagestaffComponent implements OnInit {
       formData.append('photo', file, file.name);
 
       this.profileService.uploadProfileImage(formData).subscribe((data: any) => {
-        // this.profile.avartar = config.baseURL + data.url;
-        // this.profileService.editProfile(this.profile).subscribe(data => {
-        //    console.log(data);
-        // });
-
         if (me.viewStatus === 1) {
           this.newStaff.avartar = config.baseURL + data.url;
         }

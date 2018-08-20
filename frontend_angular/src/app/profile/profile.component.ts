@@ -28,11 +28,11 @@ export class ProfileComponent implements OnInit {
     var me  = this;
     this.profileService.getProfile().subscribe(data => {
       me.profile = {
-        name: data.data[0].name,
-        email: data.data[0].email,
-        phone: data.data[0].phone,
-        avartar: data.data[0].avartar,
-        description: data.data[0].description
+        name: data['data'][0].name,
+        email: data['data'][0].email,
+        phone: data['data'][0].phone,
+        avartar: data['data'][0].avartar,
+        description: data['data'][0].description
       };
       this.isLoadedProfile = true;
     });
@@ -55,7 +55,7 @@ export class ProfileComponent implements OnInit {
   clickSaveProfile() {
     this.profileService.editProfile(this.editprofile).subscribe(data => {
       console.log(data);
-      if (data.success === 1) {
+      if (data['success'] === 1) {
         location.reload();
       }
     });
@@ -69,7 +69,7 @@ export class ProfileComponent implements OnInit {
     this.changePassword.id = this.profileService.id;
     var me = this;
     this.profileService.changePassword(this.changePassword).subscribe(data => {
-      if (data.error === 1) {
+      if (data['error'] === 1) {
         me.isChangePassword = false;
       }
     });
@@ -98,7 +98,7 @@ export class ProfileComponent implements OnInit {
 
       this.profileService.uploadProfileImage(formData).subscribe((data: any) => {
         this.profile.avartar = config.baseURL + data.url;
-        this.profileService.editProfile(this.profile).subscribe(data => {
+        this.profileService.editProfile(this.profile).subscribe(data1 => {
           // location.reload();
         });
       });

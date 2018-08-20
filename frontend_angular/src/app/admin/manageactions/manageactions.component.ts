@@ -20,7 +20,7 @@ export class ManageactionsComponent implements OnInit {
   ) {
     var me = this;
     actionService.getActionList().subscribe(data => {
-      data.data.map(action => {
+      data['data'].map(action => {
         me.actionList.push(action);
       });
     });
@@ -52,7 +52,7 @@ export class ManageactionsComponent implements OnInit {
       me.actionList = [];
       me.viewStatus = 0;
       me.actionService.getActionList().subscribe(data1 => {
-        data1.data.map(action => {
+        data1['data'].map(action => {
           me.actionList.push(action);
         });
       });
@@ -65,7 +65,7 @@ export class ManageactionsComponent implements OnInit {
       me.actionList = [];
       me.viewStatus = 0;
       me.actionService.getActionList().subscribe(data1 => {
-        data1.data.map(action => {
+        data1['data'].map(action => {
           me.actionList.push(action);
         });
       });
