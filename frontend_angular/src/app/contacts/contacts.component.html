@@ -1,18 +1,29 @@
 <div class="contacts">
-  <table class="table table-hover table-dark">
+  <table class="table table-hover " [mfData]="contactsList" #mf="mfDataTable" [mfRowsOnPage]="5">
     <thead>
       <tr>
         <th>Id</th>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>
+          <mfDefaultSorter by="first_name">First Name</mfDefaultSorter>
+        </th>
+        <th>
+          <mfDefaultSorter by="last_name">Last Name</mfDefaultSorter>
+        </th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let contact of contactsList; let i = index">
+      <tr *ngFor="let contact of mf.data; let i = index">
         <td>{{i}}</td>
         <td>{{contact['first_name']}}</td>
         <td>{{contact['last_name']}}</td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4">
+          <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </div>

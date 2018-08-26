@@ -29,6 +29,7 @@ import { LoginService } from './shared/services/login.service';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ContactsService } from './shared/services/contacts.service';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DataTableModule } from 'angular-6-datatable';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { ContactsService } from './shared/services/contacts.service';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    DataTableModule
     // NgbModule.forRoot()
   ],
   providers: [

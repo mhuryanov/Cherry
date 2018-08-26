@@ -14,8 +14,8 @@ export class ContactsComponent implements OnInit {
     var me = this;
     this.contactsService.getContacts().subscribe(data => {
       console.log(data);
-      if (data.error === 0) {
-        me.contactsList = data.data;
+      if (data['error'] === 0) {
+        me.contactsList = data['data'];
       }
     });
    }
