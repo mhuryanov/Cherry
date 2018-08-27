@@ -28,4 +28,8 @@ export class ActionService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editAction.id, editAction, { headers: this.header });
   }
 
+  getActionName(actionId) {
+    return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
+  }
+
 }

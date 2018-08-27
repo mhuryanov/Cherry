@@ -29,4 +29,8 @@ export class StaffService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editStaff.id, editStaff, {headers: this.header});
   }
 
+  getStaffName(staffId) {
+    return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + staffId, { headers: this.header });
+  }
+
 }

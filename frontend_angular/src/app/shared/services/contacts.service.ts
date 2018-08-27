@@ -5,6 +5,7 @@ import { config } from '../modules/config.model';
 export class ContactsService {
   token;
   header;
+  table_name = 'contacts';
   constructor(
     private http: HttpClient
   ) {
@@ -13,7 +14,8 @@ export class ContactsService {
    }
 
   getContacts() {
-    return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
+    // return this.http.get(config.baseURL + 'remote/getUsers', { headers: this.header });
+    return this.http.get(config.baseURL + 'api/' + this.table_name , {headers : this.header});
   }
 
 }

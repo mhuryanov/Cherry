@@ -30,5 +30,9 @@ export class StatusService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editStatus.id, editStatus, { headers: this.header });
   }
 
+  getStatusName(statusId) {
+    return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
+  }
+
 
 }

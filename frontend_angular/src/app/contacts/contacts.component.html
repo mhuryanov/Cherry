@@ -1,5 +1,6 @@
 <div class="contacts">
-  <table class="table table-hover " [mfData]="contactsList" #mf="mfDataTable" [mfRowsOnPage]="5">
+  
+  <!-- <table class="table table-hover " [mfData]="contactsList" #mf="mfDataTable" [mfRowsOnPage]="5">
     <thead>
       <tr>
         <th>Id</th>
@@ -25,5 +26,49 @@
         </td>
       </tr>
     </tfoot>
-  </table>
+  </table> -->
+  <div class="row">
+    <div class="col-md-3">
+      <input type="text" placeholder="Search" class="form-control">
+    </div>
+    
+    <div class="col-md-2">Advanced Filtering</div>
+
+    <div class="col-md-2">
+      <button class="btn btn-success">Action</button>
+    </div>
+  </div>
+
+  <div class="contacts">
+    <table class="table table-hover">
+      <thead>
+        <th></th>
+        <th>Profile</th>
+        <th>Tags</th>
+        <th>Status</th>
+        <th>Actions</th>
+        <th>Messages</th>
+        <th>Date of Creation</th>
+        <th>Staff</th>
+        <th>Rating</th>
+        <th>Note</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contact of contactsList; let i = index">
+          <td><input type="checkbox"></td>
+          <td>
+            <img [src]="contact.profile_image" alt="" class="profile-image">
+          </td>
+          <td>{{contact.tags}}</td>
+          <td>{{contact.status}}</td>
+          <td>{{contact.actions}}</td>
+          <td>{{contact.messages}}</td>
+          <td>{{contact.date_of_creation}}</td>
+          <td>{{contact.staff}}</td>
+          <td>{{contact.rating}}</td>
+          <td>{{contact.note}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

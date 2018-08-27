@@ -29,4 +29,8 @@ export class TagService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editTag.id, editTag, { headers: this.header });
   }
 
+  getTagName(tagId) {
+    return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
+  }
+
 }
