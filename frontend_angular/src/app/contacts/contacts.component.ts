@@ -12,6 +12,18 @@ import { StaffService } from '../shared/services/staff.service';
 })
 export class ContactsComponent implements OnInit {
   contactsList = [];
+  contactsListShow = [];
+  isAdvancedFiltering = false;
+  tagFilter = '';
+  searchFilter = '';
+  statusFilter = '';
+  actionsFilter = '';
+  messagesFilter = '';
+  dateofcreationFilter = '';
+  staffFilter = '';
+  ratingFilter = '';
+  noteFilter = '';
+
   constructor(
     private contactsService: ContactsService,
     private tagService: TagService,
@@ -22,7 +34,10 @@ export class ContactsComponent implements OnInit {
     var me = this;
     this.contactsService.getContacts().subscribe(data => {
       if (data['success'] === 1) {
+        console.log(data);
+        
         me.contactsList = data['data'];
+        // me.contactsListShow = data['data'];
         me.contactsList.map(contact => {
           tagService.getTagName(contact['tags']).subscribe(tag => {
             contact['tags'] = tag['data'][0]['name'];
@@ -40,6 +55,8 @@ export class ContactsComponent implements OnInit {
             contact['staff'] = staff['data'][0]['name'];
           });
         });
+
+        me.contactsListShow = me.contactsList;
       }
     });
    }
@@ -47,4 +64,28 @@ export class ContactsComponent implements OnInit {
   ngOnInit() {
   }
 
+  // search() {
+  //   var me = this;
+  //   me.contactsListShow = me.contactsList.filter(function (el) {
+  //     return el.name.includes(me.searchFilter);
+  //   });
+  // }
+
+  filter() {
+    var me = this;
+    me.contactsListShow = me.contactsList.filter(function (el) {
+      if (!me.isAdvancedFiltering) {
+        return el.name.includes(me.searchFilter);
+      }
+      return el.tags.includes(me.tagFilter)
+            && el.name.includes(me.searchFilter)
+            && el.status.includes(me.statusFilter)
+            && el.actions.includes(me.actionsFilter)
+            && el.messages.includes(me.messagesFilter)
+            && el.date_of_creation.includes(me.dateofcreationFilter)
+            && el.staff.includes(me.staffFilter)
+            && el.rating.toString().includes(me.ratingFilter)
+            && el.note.includes(me.noteFilter);
+    });
+  }
 }

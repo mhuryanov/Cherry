@@ -2,7 +2,7 @@
   <div class="left-items">
     <div class="left-item" [ngClass]="{'active': activeURL=='/dashboard/home'}" (click)="goto('/dashboard/home')">Dashboard</div>
     <div class="left-item" [ngClass]="{'active': activeURL=='/dashboard/contacts'}" (click)="goto('/dashboard/contacts')">Contacts</div>
-    <div *ngIf="profile.role == 1" class="left-item" [ngClass]="{'active': activeURL=='/dashboard/admin/managestaff'}" (click)="goto('/dashboard/admin/managestaff')">Admin</div>
+    <div *ngIf="profile != null &&  profile.role == 1" class="left-item" [ngClass]="{'active': activeURL=='/dashboard/admin/managestaff'}" (click)="goto('/dashboard/admin/managestaff')">Admin</div>
   </div>
   <div class="right-items">
     <div class="user" (click)="goto('/dashboard/profile')" *ngIf="isLoadedProfile">

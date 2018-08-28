@@ -29,16 +29,44 @@
   </table> -->
   <div class="row">
     <div class="col-md-3">
-      <input type="text" placeholder="Search" class="form-control">
+      <input type="text" placeholder="Search" class="form-control" (input)="filter()" [(ngModel)]="searchFilter">
     </div>
     
-    <div class="col-md-2">Advanced Filtering</div>
+    <div class="col-md-2 btn btn-default" (click)="isAdvancedFiltering = !isAdvancedFiltering ; filter()">Advanced Filtering</div>
 
     <div class="col-md-2">
       <button class="btn btn-success">Action</button>
     </div>
   </div>
 
+  <div class="row advanced-filtering" *ngIf="isAdvancedFiltering">
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="tag" class="form-control" [(ngModel)]="tagFilter" (input)="filter()">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="status" class="form-control" [(ngModel)]="statusFilter" (input)="filter()">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="actions" class="form-control" [(ngModel)]="actionsFilter" (input)="filter()">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="messages" class="form-control" [(ngModel)]="messagesFilter" (input)="filter()">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="date of creation" class="form-control" (input)="filter()" [(ngModel)]="dateofcreationFilter">
+    </div>
+
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="staff" class="form-control" (input)="filter()" [(ngModel)]="staffFilter">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="rate" class="form-control" (input)="filter()" [(ngModel)]="ratingFilter">
+    </div>
+    <div class="col-md-3 filter-item">
+      <input type="text" placeholder="note" class="form-control" (input)="filter()" [(ngModel)]="noteFilter">
+    </div>
+  </div>
+  
   <div class="contacts">
     <table class="table table-hover">
       <thead>
@@ -55,7 +83,7 @@
         <th>Note</th>
       </thead>
       <tbody>
-        <tr *ngFor="let contact of contactsList; let i = index">
+        <tr *ngFor="let contact of contactsListShow; let i = index">
           <td><input type="checkbox"></td>
           <td>
             <img [src]="contact.profile_image" alt="" class="profile-image">
