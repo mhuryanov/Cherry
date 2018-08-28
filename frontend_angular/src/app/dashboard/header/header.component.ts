@@ -21,7 +21,6 @@ export class HeaderComponent implements OnInit {
     private profileService: ProfileService
   ) {
     router.events.subscribe((val) => {
-      console.log(location.path());
       this.activeURL = location.path();
     });
 

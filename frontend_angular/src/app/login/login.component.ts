@@ -52,6 +52,7 @@ export class LoginComponent implements OnInit {
         this.loginService.token = data['token'];
         localStorage.setItem('token', data['token']);
         localStorage.setItem('userId', data['user'].id);
+        localStorage.setItem('role', data['user'].role);
         this.router.navigate(['/dashboard/home']);
       }
 

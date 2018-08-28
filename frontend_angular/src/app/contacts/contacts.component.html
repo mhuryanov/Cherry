@@ -44,29 +44,32 @@
   </div>
 
   <div class="row advanced-filtering" *ngIf="isAdvancedFiltering">
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="tag" class="form-control" [(ngModel)]="tagFilter" (input)="filter()">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="status" class="form-control" [(ngModel)]="statusFilter" (input)="filter()">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="actions" class="form-control" [(ngModel)]="actionsFilter" (input)="filter()">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="messages" class="form-control" [(ngModel)]="messagesFilter" (input)="filter()">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="date of creation" class="form-control" (input)="filter()" [(ngModel)]="dateofcreationFilter">
     </div>
 
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="staff" class="form-control" (input)="filter()" [(ngModel)]="staffFilter">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="rate" class="form-control" (input)="filter()" [(ngModel)]="ratingFilter">
     </div>
-    <div class="col-md-3 filter-item">
+    <div class="col-md-4 filter-item">
+      <input type="text" placeholder="time" class="form-control" (input)="filter()" [(ngModel)]="timeFilter">
+    </div>
+    <div class="col-md-4 filter-item">
       <input type="text" placeholder="note" class="form-control" (input)="filter()" [(ngModel)]="noteFilter">
     </div>
   </div>
@@ -84,6 +87,7 @@
         <th>Date of Creation</th>
         <th>Staff</th>
         <th>Rating</th>
+        <th>Time</th>
         <th>Note</th>
       </thead>
       <tbody>
@@ -100,6 +104,7 @@
           <td>{{contact.date_of_creation}}</td>
           <td>{{contact.staff}}</td>
           <td>{{contact.rating}}</td>
+          <td>{{contact.time}}s</td>
           <td>{{contact.note}}</td>
         </tr>
       </tbody>

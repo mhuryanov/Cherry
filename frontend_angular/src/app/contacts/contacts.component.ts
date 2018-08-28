@@ -23,6 +23,7 @@ export class ContactsComponent implements OnInit {
   staffFilter = '';
   ratingFilter = '';
   noteFilter = '';
+  timeFilter = '';
 
   constructor(
     private contactsService: ContactsService,
@@ -32,45 +33,26 @@ export class ContactsComponent implements OnInit {
     private staffService: StaffService
   ) {
     this.loadContacts();
-    // var me = this;
-    // this.contactsService.getContacts().subscribe(data => {
-    //   if (data['success'] === 1) {
-    //     console.log(data);
-        
-    //     me.contactsList = data['data'];
-    //     // me.contactsListShow = data['data'];
-    //     me.contactsList.map(contact => {
-    //       tagService.getTagName(contact['tags']).subscribe(tag => {
-    //         contact['tags'] = tag['data'][0]['name'];
-    //       });
-
-    //       statusService.getStatusName(contact['status']).subscribe(status => {
-    //         contact['status'] = status['data'][0]['name'];
-    //       });
-
-    //       actionService.getActionName(contact['actions']).subscribe(action => {
-    //         contact['actions'] = action['data'][0]['name'];
-    //       });
-
-    //       staffService.getStaffName(contact['staff']).subscribe(staff => {
-    //         contact['staff'] = staff['data'][0]['name'];
-    //       });
-    //       contact['check'] = false;
-    //     });
-
-    //     me.contactsListShow = me.contactsList;
-    //   }
-    // });
    }
 
   loadContacts() {
     var me = this;
+    var userId = localStorage.getItem('userId');
+    var role = localStorage.getItem('role');
+    me.contactsList = [];
+    me.contactsListShow = [];
     this.contactsService.getContacts().subscribe(data => {
       if (data['success'] === 1) {
-        console.log(data);
+        data['data'].map(contact => {
+          if (role.toString() === '2') {
+            if (contact['staff'].toString() === userId) {
+              me.contactsList.push(contact);
+            }
+          } else {
+            me.contactsList.push(contact);
+          }
+        });
 
-        me.contactsList = data['data'];
-        // me.contactsListShow = data['data'];
         me.contactsList.map(contact => {
           me.tagService.getTagName(contact['tags']).subscribe(tag => {
             contact['tags'] = tag['data'][0]['name'];
@@ -113,6 +95,7 @@ export class ContactsComponent implements OnInit {
             && el.date_of_creation.includes(me.dateofcreationFilter)
             && el.staff.includes(me.staffFilter)
             && el.rating.toString().includes(me.ratingFilter)
+            && el.time.toString().includes(me.timeFilter)
             && el.note.includes(me.noteFilter);
     });
   }
