@@ -12,7 +12,7 @@ import { Profile } from '../../shared/modules/profile.model';
 export class HeaderComponent implements OnInit {
 
   activeURL = '/dashboard/home';
-  profile: Profile;
+  profile;
   isLoadedProfile = false;
 
   constructor(
@@ -33,7 +33,8 @@ export class HeaderComponent implements OnInit {
           email: data1['data'][0].email,
           phone: data1['data'][0].phone,
           avartar: data1['data'][0].avartar,
-          description: data1['data'][0].description
+          description: data1['data'][0].description,
+          role: data1['data'][0].role
         };
         this.isLoadedProfile = true;
       });
