@@ -85,18 +85,18 @@ export class ContactsComponent implements OnInit {
     console.log(me.contactsListShow);
     me.contactsListShow = me.contactsList.filter(function (el) {
       if (!me.isAdvancedFiltering) {
-        return el.name.includes(me.searchFilter);
+        return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
       }
-      return el.tags.includes(me.tagFilter)
-            && el.name.includes(me.searchFilter)
-            && el.status.includes(me.statusFilter)
-            && el.actions.includes(me.actionsFilter)
-            && el.messages.includes(me.messagesFilter)
-            && el.date_of_creation.includes(me.dateofcreationFilter)
-            && el.staff.includes(me.staffFilter)
-            && el.rating.toString().includes(me.ratingFilter)
-            && el.time.toString().includes(me.timeFilter)
-            && el.note.includes(me.noteFilter);
+      return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
+        && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
+        && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
+        && el.actions.toLowerCase().includes(me.actionsFilter.toLowerCase())
+        && el.messages.toLowerCase().includes(me.messagesFilter.toLowerCase())
+        && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
+        && el.staff.toLowerCase().includes(me.staffFilter.toLowerCase())
+        && el.rating.toString().toLowerCase().includes(me.ratingFilter.toLowerCase())
+        && el.time.toString().toLowerCase().includes(me.timeFilter.toLowerCase())
+        && el.note.toLowerCase().includes(me.noteFilter.toLowerCase());
     });
   }
 
