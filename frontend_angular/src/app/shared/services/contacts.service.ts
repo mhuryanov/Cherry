@@ -18,4 +18,8 @@ export class ContactsService {
     return this.http.get(config.baseURL + 'api/' + this.table_name , {headers : this.header});
   }
 
+  delete(id) {
+    return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + id, { headers: this.header });
+  }
+
 }

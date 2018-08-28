@@ -19,4 +19,17 @@
             margin-bottom: 10px;
         }
     }
+
+    .dropdown{
+        .dropdown-menu{
+            li {
+                padding: 5px;
+                cursor: pointer;
+
+                &:hover{
+                    background: #888;
+                }
+            }
+        }
+    }
 }

@@ -31,48 +31,76 @@ export class ContactsComponent implements OnInit {
     private actionService: ActionService,
     private staffService: StaffService
   ) {
+    this.loadContacts();
+    // var me = this;
+    // this.contactsService.getContacts().subscribe(data => {
+    //   if (data['success'] === 1) {
+    //     console.log(data);
+        
+    //     me.contactsList = data['data'];
+    //     // me.contactsListShow = data['data'];
+    //     me.contactsList.map(contact => {
+    //       tagService.getTagName(contact['tags']).subscribe(tag => {
+    //         contact['tags'] = tag['data'][0]['name'];
+    //       });
+
+    //       statusService.getStatusName(contact['status']).subscribe(status => {
+    //         contact['status'] = status['data'][0]['name'];
+    //       });
+
+    //       actionService.getActionName(contact['actions']).subscribe(action => {
+    //         contact['actions'] = action['data'][0]['name'];
+    //       });
+
+    //       staffService.getStaffName(contact['staff']).subscribe(staff => {
+    //         contact['staff'] = staff['data'][0]['name'];
+    //       });
+    //       contact['check'] = false;
+    //     });
+
+    //     me.contactsListShow = me.contactsList;
+    //   }
+    // });
+   }
+
+  loadContacts() {
     var me = this;
     this.contactsService.getContacts().subscribe(data => {
       if (data['success'] === 1) {
         console.log(data);
-        
+
         me.contactsList = data['data'];
         // me.contactsListShow = data['data'];
         me.contactsList.map(contact => {
-          tagService.getTagName(contact['tags']).subscribe(tag => {
+          me.tagService.getTagName(contact['tags']).subscribe(tag => {
             contact['tags'] = tag['data'][0]['name'];
           });
 
-          statusService.getStatusName(contact['status']).subscribe(status => {
+          me.statusService.getStatusName(contact['status']).subscribe(status => {
             contact['status'] = status['data'][0]['name'];
           });
 
-          actionService.getActionName(contact['actions']).subscribe(action => {
+          me.actionService.getActionName(contact['actions']).subscribe(action => {
             contact['actions'] = action['data'][0]['name'];
           });
 
-          staffService.getStaffName(contact['staff']).subscribe(staff => {
+          me.staffService.getStaffName(contact['staff']).subscribe(staff => {
             contact['staff'] = staff['data'][0]['name'];
           });
+          contact['check'] = false;
         });
 
         me.contactsListShow = me.contactsList;
       }
     });
-   }
+  }
 
   ngOnInit() {
   }
 
-  // search() {
-  //   var me = this;
-  //   me.contactsListShow = me.contactsList.filter(function (el) {
-  //     return el.name.includes(me.searchFilter);
-  //   });
-  // }
-
   filter() {
     var me = this;
+    console.log(me.contactsListShow);
     me.contactsListShow = me.contactsList.filter(function (el) {
       if (!me.isAdvancedFiltering) {
         return el.name.includes(me.searchFilter);
@@ -86,6 +114,27 @@ export class ContactsComponent implements OnInit {
             && el.staff.includes(me.staffFilter)
             && el.rating.toString().includes(me.ratingFilter)
             && el.note.includes(me.noteFilter);
+    });
+  }
+
+  deleteSelected() {
+    var me = this;
+    var checkedList = [];
+    checkedList = me.contactsListShow.filter(function(el) {
+      return el.check;
+    });
+
+    console.log(checkedList);
+    if (checkedList.length === 0) {
+      alert('Please select contact list to delete!');
+      return;
+    }
+
+    checkedList.map(contact => {
+      me.contactsService.delete(contact.id).subscribe(data => {
+        console.log(data);
+        me.loadContacts();
+      });
     });
   }
 }

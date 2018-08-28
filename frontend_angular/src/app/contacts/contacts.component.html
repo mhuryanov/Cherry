@@ -34,8 +34,12 @@
     
     <div class="col-md-2 btn btn-default" (click)="isAdvancedFiltering = !isAdvancedFiltering ; filter()">Advanced Filtering</div>
 
-    <div class="col-md-2">
-      <button class="btn btn-success">Action</button>
+    <div class="col-md-2 dropdown">
+      <button class="btn btn-success" data-toggle="dropdown">Action</button>
+      <ul class="dropdown-menu">
+        <li (click)="deleteSelected()">Delete</li>
+        <li>Send Bulk Messages</li>
+      </ul>
     </div>
   </div>
 
@@ -84,7 +88,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let contact of contactsListShow; let i = index">
-          <td><input type="checkbox"></td>
+          <td><input type="checkbox" [(ngModel)]="contact.check"></td>
           <td>
             <img [src]="contact.profile_image" alt="" class="profile-image">
           </td>
