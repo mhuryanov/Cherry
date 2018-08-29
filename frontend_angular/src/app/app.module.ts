@@ -30,6 +30,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { ContactsService } from './shared/services/contacts.service';
 // import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DataTableModule } from 'angular-6-datatable';
+import { MomentModule } from 'angular2-moment';
+import { MomentTimezoneModule } from 'angular-moment-timezone';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import { DataTableModule } from 'angular-6-datatable';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    DataTableModule
+    DataTableModule,
+    MomentModule,
+    MomentTimezoneModule
     // NgbModule.forRoot()
   ],
   providers: [

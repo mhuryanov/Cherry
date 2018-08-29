@@ -101,7 +101,9 @@
           <td>{{contact.status}}</td>
           <td>{{contact.actions}}</td>
           <td>{{contact.messages}}</td>
-          <td>{{contact.date_of_creation}}</td>
+          <td>
+             {{contact.date_of_creation | amTz:'America/Chicago' | amDateFormat }}
+          </td>
           <td>{{contact.staff}}</td>
           <td>{{contact.rating}}</td>
           <td>{{contact.time}}s</td>
