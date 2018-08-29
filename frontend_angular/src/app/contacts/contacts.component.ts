@@ -4,8 +4,7 @@ import { TagService } from '../shared/services/tag.service';
 import { StatusService } from '../shared/services/status.service';
 import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
-// import {Moment} from 'moment';
-import { Moment } from 'moment-timezone';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-contacts',
@@ -32,7 +31,8 @@ export class ContactsComponent implements OnInit {
     private tagService: TagService,
     private statusService: StatusService,
     private actionService: ActionService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private router: Router
   ) {
     this.loadContacts();
    }
@@ -121,5 +121,9 @@ export class ContactsComponent implements OnInit {
         me.loadContacts();
       });
     });
+  }
+
+  gotochat(userid) {
+    this.router.navigate(['/dashboard/chat']);
   }
 }

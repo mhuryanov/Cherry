@@ -32,6 +32,8 @@ import { ContactsService } from './shared/services/contacts.service';
 import { DataTableModule } from 'angular-6-datatable';
 import { MomentModule } from 'angular2-moment';
 import { MomentTimezoneModule } from 'angular-moment-timezone';
+import { ChatComponent } from './chat/chat.component';
+import { SlideshowModule } from 'ng-simple-slideshow';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { MomentTimezoneModule } from 'angular-moment-timezone';
     ManagetagsComponent,
     ManagetemplatesComponent,
     ManagestatusComponent,
-    ManageactionsComponent
+    ManageactionsComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -57,7 +60,8 @@ import { MomentTimezoneModule } from 'angular-moment-timezone';
     HttpClientModule,
     DataTableModule,
     MomentModule,
-    MomentTimezoneModule
+    MomentTimezoneModule,
+    SlideshowModule
     // NgbModule.forRoot()
   ],
   providers: [

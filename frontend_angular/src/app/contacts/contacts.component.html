@@ -94,7 +94,7 @@
         <tr *ngFor="let contact of contactsListShow; let i = index">
           <td><input type="checkbox" [(ngModel)]="contact.check"></td>
           <td>
-            <img [src]="contact.profile_image" alt="" class="profile-image">
+            <img [src]="contact.profile_image" alt="" class="profile-image" (click)="gotochat(contact.user_id)">
           </td>
           <td>{{contact.name}}</td>
           <td>{{contact.tags}}</td>
@@ -102,7 +102,7 @@
           <td>{{contact.actions}}</td>
           <td>{{contact.messages}}</td>
           <td>
-             {{contact.date_of_creation | amTz:'America/Chicago' | amDateFormat }}
+             {{contact.date_of_creation | amTz:'America/Chicago'  }}
           </td>
           <td>{{contact.staff}}</td>
           <td>{{contact.rating}}</td>

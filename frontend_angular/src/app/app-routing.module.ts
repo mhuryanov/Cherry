@@ -12,6 +12,7 @@ import { ManagetemplatesComponent } from './admin/managetemplates/managetemplate
 import { ManagestatusComponent } from './admin/managestatus/managestatus.component';
 import { ManageactionsComponent } from './admin/manageactions/manageactions.component';
 import { AuthguardService } from './shared/services/authguard.service';
+import { ChatComponent } from './chat/chat.component';
 
 const routes: Routes = [
     {
@@ -50,6 +51,9 @@ const routes: Routes = [
                         component: ManageactionsComponent,
                         path: 'manageactions'
                     }]
+            }, {
+                component: ChatComponent,
+                path: 'chat'
             }
         ]
     },
