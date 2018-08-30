@@ -4,17 +4,100 @@
   <div>
     <table class="table table-bordered">
       <tr>
-        <td class="text-center">Profile</td>
+        <td class="text-center" style="width: 50%;">Profile</td>
         <td class="text-center">Chat</td>
       </tr>
       
       <tr>
-        <div class="slider-div">
-          <slideshow [height]="'300px'" [autoPlay]="true" [showArrows]="true" [imageUrls]="imageUrlArray"
-           [autoPlayWaitForLazyLoad]="true">
-          </slideshow>
+        <td>
+          <div class="slider-div">
+            <slideshow [height]="'300px'" [autoPlay]="true" [showArrows]="true" [imageUrls]="imageUrlArray"
+            [autoPlayWaitForLazyLoad]="true">
+            </slideshow>
+          </div>
+          <div *ngIf="userProfile" class="row">
+            <div class="col-md-6">
+              <p>First Name: {{userProfile["first_name"]}}</p>
+              <p>Last Name: {{userProfile['last_name']}}</p>
+              <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>
+              <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>
+              <p>Orientation: {{userProfile['orientation'] == null ? '-': userProfile['orientation']}}</p>
+              <p>Education: {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>           
+            </div>
+            <div class="col-md-6">
+              <p>Address: {{userProfile['address'] == null || userProfile['address'] == '' ? '-': userProfile['address']}}</p>
+              <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>
+              <p>Country: {{userProfile['country'] == null || userProfile['country'] == '' ? '-': userProfile['country']}}</p>
+              <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>
+              <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>
+              <p>Interest: {{userProfile['interest'] == null || userProfile['interest'] == '' ? '-': userProfile['interest']}}</p>
+            </div>
+          </div> 
+        </td>
+        <td>
 
-        </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <div class="row">
+            <div class="col-md-6">
+              <label>Status:</label>
+              <label>-</label>
+            </div>
+            <div class="col-md-6">
+              <label>Actions:</label>
+              <label>-</label>
+            </div>
+            <div class="col-md-6">
+              <label>Staff:</label>
+              <label>-</label>
+            </div>
+            <div class="col-md-6">
+              <label>Rating:</label>
+              <label>-</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <p><label>Tags</label><i class="fas fa-plus-circle"></i></p>
+              <ul>
+                <li>Tag1</li>
+                <li>Tag2</li>
+              </ul>
+            </div>
+            <div class="col-md-6">
+              <p>Note:</p> 
+              <div>
+                <textarea name="" class="form-control"></textarea>
+                <button class="btn btn-success">Save</button>
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div class="row" style="border-bottom: solid 1px #dee2e6;padding-bottom: 15px;">
+            <div class="col-md-8">
+              <input type="text" class="form-control" placeholder="Search saved templates">
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-primary">See All</button>
+            </div>
+            <div class="col-md-2">
+              <button class="btn btn-success">Add New</button>
+            </div>
+          </div>
+
+          <div class="row" style="padding-top: 15px;">
+            <div class="col-md-12">
+              <textarea name="" class="form-control"></textarea>
+            </div>
+            <div class="col-md-12 text-right">
+              <button class="btn btn-success" style="margin-top: 15px;">Enter</button>
+            </div>
+          </div>
+        </td>
       </tr>
     </table>
   </div>

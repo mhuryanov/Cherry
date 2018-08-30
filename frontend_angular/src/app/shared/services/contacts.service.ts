@@ -22,4 +22,8 @@ export class ContactsService {
     return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + id, { headers: this.header });
   }
 
+  getUserProfile(userId) {
+    return this.http.get(config.baseURL + 'remote/getUserProfile/' + userId, { headers: this.header });
+  }
+
 }
