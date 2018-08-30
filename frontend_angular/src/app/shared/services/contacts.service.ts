@@ -30,4 +30,8 @@ export class ContactsService {
     return this.http.get(config.baseURL + 'remote/getUserProfile/' + userId, { headers: this.header });
   }
 
+  updateContact(contactId, contactData) {
+    return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
+  }
+
 }

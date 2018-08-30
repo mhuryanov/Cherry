@@ -17,6 +17,15 @@ export class ChatComponent implements OnInit {
   userProfile = false;
   contactInfo;
 
+  saveNoteBtnStr = 'Save';
+
+  isAddTag = false;
+
+  tagList = [];
+  showTagList = [];
+
+  selectedTagId = -1;
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -62,9 +71,60 @@ export class ChatComponent implements OnInit {
         });
       }
     });
+
+    this.tagService.getTagList().subscribe(data => {
+      if (data['success'] === 1) {
+        me.tagList = data['data'];
+      }
+    });
   }
 
   ngOnInit() {
   }
 
+  saveNote() {
+    var me = this;
+    var contactData = {
+      note: this.contactInfo.note
+    };
+    this.saveNoteBtnStr = 'Saving...';
+    this.contactService.updateContact(this.contactId, contactData).subscribe(data => {
+      console.log(data);
+      me.saveNoteBtnStr = 'Saved';
+    });
+  }
+
+  clickAddTag() {
+    var me = this;
+    this.isAddTag = !this.isAddTag;
+    this.showTagList = [];
+    if (this.isAddTag) {
+      var tagIds = me.contactInfo['tags'].split(',');
+      this.tagList.map(tag => {
+        if (!tagIds.includes(tag['id'].toString())) {
+          me.showTagList.push(tag);
+        }
+      });
+    }
+  }
+
+  addTag() {
+    var me = this;
+    if (this.selectedTagId === -1) {
+      return;
+    }
+    this.tagList.map(tag => {
+      if (tag['id'].toString() === me.selectedTagId) {
+        me.contactInfo['tags'] = me.contactInfo['tags'] + ',' + me.selectedTagId;
+        var contactData = {
+          tags: me.contactInfo['tags']
+        };
+        me.contactService.updateContact(me.contactId, contactData).subscribe(data => {
+          me.contactInfo['tagsArray'].push(tag);
+          me.isAddTag = false;
+          me.clickAddTag();
+        });
+      }
+    });
+  }
 }

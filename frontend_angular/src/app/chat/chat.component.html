@@ -61,7 +61,18 @@
 
           <div class="row" *ngIf="contactInfo">
             <div class="col-md-6">
-              <p><label>Tags</label><i class="fas fa-plus-circle"></i></p>
+              <p>
+                <label>Tags</label>
+                <i class="fas fa-plus-circle" style="cursor: pointer;font-size: 20px;" (click)="clickAddTag()"></i>
+              </p>
+              <p *ngIf="isAddTag">
+                <select name="" class="form-control" style="margin-bottom: 10px;" [(ngModel)]="selectedTagId">
+                  <option value="-1">Please Select tag</option>
+                  <option *ngFor="let tag of showTagList;" [value]="tag.id">{{tag.name}}</option>
+                </select>
+                <button class="btn btn-success" (click)="addTag()">Add</button>
+                <button class="btn btn-danger" (click)="isAddTag = false;">Cancel</button>
+              </p>
               <ul>
                 <li *ngFor="let tag of contactInfo['tagsArray'];">{{tag.name}}</li>
               </ul>
@@ -70,7 +81,7 @@
               <p>Note:</p> 
               <div>
                 <textarea name="" class="form-control" [(ngModel)]="contactInfo['note']"></textarea>
-                <button class="btn btn-success">Save</button>
+                <button class="btn btn-success" (click)="saveNote()" style="margin-top: 10px;">{{saveNoteBtnStr}}</button>
               </div>
             </div>
           </div>
