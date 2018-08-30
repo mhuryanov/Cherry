@@ -52,6 +52,14 @@ export class ChatComponent implements OnInit {
         me.staffService.getStaffName(me.contactInfo['staff']).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
         });
+
+        var tagIds = me.contactInfo['tags'].split(',');
+        me.contactInfo['tagsArray'] = [];
+        tagIds.map(tagId => {
+          me.tagService.getTagName(tagId).subscribe(tag => {
+            me.contactInfo['tagsArray'].push(tag['data'][0]);
+          });
+        });
       }
     });
   }

@@ -16,7 +16,7 @@ export class AdminheaderComponent implements OnInit {
     private location: Location
   ) {
       router.events.subscribe((val) => {
-      console.log(location.path());
+      // console.log(location.path());
       this.activeURL = location.path();
     });
   }

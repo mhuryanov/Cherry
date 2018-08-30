@@ -56,6 +56,14 @@ export class ContactsComponent implements OnInit {
         });
 
         me.contactsList.map(contact => {
+          // console.log(contact['tags']);
+          var tagIds = contact['tags'].split(',');
+          contact['tagsArray'] = [];
+          tagIds.map(tagId => {
+            me.tagService.getTagName(tagId).subscribe(tag => {
+              contact['tagsArray'].push(tag['data'][0]);
+            });
+          });
           me.tagService.getTagName(contact['tags']).subscribe(tag => {
             contact['tags'] = tag['data'][0]['name'];
           });

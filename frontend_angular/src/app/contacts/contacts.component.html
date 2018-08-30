@@ -97,7 +97,11 @@
             <img [src]="contact.profile_image" alt="" class="profile-image" (click)="gotochat(contact.id, contact.user_id)">
           </td>
           <td>{{contact.name}}</td>
-          <td>{{contact.tags}}</td>
+          <td>
+            <span *ngFor="let tag of contact['tagsArray'];" class="tag">
+              {{tag['name']}}
+            </span>
+          </td>
           <td>{{contact.status}}</td>
           <td>{{contact.actions}}</td>
           <td>{{contact.messages}}</td>
