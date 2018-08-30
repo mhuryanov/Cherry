@@ -5,6 +5,7 @@ import { TagService } from '../shared/services/tag.service';
 import { StatusService } from '../shared/services/status.service';
 import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
+import { TemplateService } from '../shared/services/template.service';
 
 @Component({
   selector: 'app-chat',
@@ -26,6 +27,11 @@ export class ChatComponent implements OnInit {
 
   selectedTagId = -1;
 
+  templates = [];
+  showTemplates = [];
+
+  searchTemplateStr = '';
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -37,6 +43,7 @@ export class ChatComponent implements OnInit {
     private statusService: StatusService,
     private actionService: ActionService,
     private staffService: StaffService,
+    private templateService: TemplateService
   ) {
     var me = this;
     this.contactId = activedRoute.snapshot.params['contactId'];
@@ -77,6 +84,13 @@ export class ChatComponent implements OnInit {
         me.tagList = data['data'];
       }
     });
+
+    this.templateService.getTemplateList().subscribe(data => {
+      if (data['success'] === 1) {
+        me.templates = data['data'];
+        me.showTemplates = data['data'];
+      }
+    });
   }
 
   ngOnInit() {
@@ -89,7 +103,6 @@ export class ChatComponent implements OnInit {
     };
     this.saveNoteBtnStr = 'Saving...';
     this.contactService.updateContact(this.contactId, contactData).subscribe(data => {
-      console.log(data);
       me.saveNoteBtnStr = 'Saved';
     });
   }
@@ -125,6 +138,33 @@ export class ChatComponent implements OnInit {
           me.clickAddTag();
         });
       }
+    });
+  }
+
+  searchTemplate() {
+    var me = this;
+    this.showTemplates = this.templates.filter(function(template) {
+      return template['name'].toLowerCase().includes(me.searchTemplateStr.toLowerCase());
+    });
+  }
+
+  addNewTemplate() {
+    if (this.showTemplates.length !== 0) {
+      return;
+    }
+
+    var me = this;
+    var templatedata = {
+      name: me.searchTemplateStr
+    };
+    this.templateService.addNewTemplate(templatedata).subscribe(data1 => {
+      this.templateService.getTemplateList().subscribe(data => {
+        if (data['success'] === 1) {
+          me.templates = data['data'];
+          me.showTemplates = data['data'];
+          me.searchTemplate();
+        }
+      });
     });
   }
 }

@@ -89,13 +89,17 @@
         <td>
           <div class="row" style="border-bottom: solid 1px #dee2e6;padding-bottom: 15px;">
             <div class="col-md-8">
-              <input type="text" class="form-control" placeholder="Search saved templates">
+              <input type="text" class="form-control" placeholder="Search saved templates" [(ngModel)]="searchTemplateStr" (input)="searchTemplate()">
             </div>
             <div class="col-md-2">
-              <button class="btn btn-primary">See All</button>
+              <button class="btn btn-primary" (click)="searchTemplateStr = ''; searchTemplate();">See All</button>
             </div>
             <div class="col-md-2">
-              <button class="btn btn-success">Add New</button>
+              <button class="btn btn-success" [disabled]="showTemplates.length !== 0" (click)="addNewTemplate()">Add New</button>
+            </div>
+
+            <div class="col-md-12" class="templates-div">
+              <label *ngFor="let template of showTemplates" class="template-item">{{template.name}}</label>
             </div>
           </div>
 
