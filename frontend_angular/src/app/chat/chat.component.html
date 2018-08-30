@@ -40,26 +40,26 @@
       </tr>
       <tr>
         <td>
-          <div class="row">
+          <div class="row" *ngIf="contactInfo">
             <div class="col-md-6">
               <label>Status:</label>
-              <label>-</label>
+              <label>{{contactInfo['status']['name']}}</label>
             </div>
             <div class="col-md-6">
               <label>Actions:</label>
-              <label>-</label>
+              <label>{{contactInfo['actions']['name']}}</label>
             </div>
             <div class="col-md-6">
               <label>Staff:</label>
-              <label>-</label>
+              <label>{{contactInfo['staff']['name']}}</label>
             </div>
             <div class="col-md-6">
               <label>Rating:</label>
-              <label>-</label>
+              <label>{{contactInfo['rating']}}</label>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row" *ngIf="contactInfo">
             <div class="col-md-6">
               <p><label>Tags</label><i class="fas fa-plus-circle"></i></p>
               <ul>
@@ -70,7 +70,7 @@
             <div class="col-md-6">
               <p>Note:</p> 
               <div>
-                <textarea name="" class="form-control"></textarea>
+                <textarea name="" class="form-control" [(ngModel)]="contactInfo['note']"></textarea>
                 <button class="btn btn-success">Save</button>
               </div>
             </div>

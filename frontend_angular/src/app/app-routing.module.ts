@@ -53,7 +53,7 @@ const routes: Routes = [
                     }]
             }, {
                 component: ChatComponent,
-                path: 'chat'
+                path: 'chat/:contactId/:userId'
             }
         ]
     },

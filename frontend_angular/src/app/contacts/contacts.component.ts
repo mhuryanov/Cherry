@@ -123,7 +123,7 @@ export class ContactsComponent implements OnInit {
     });
   }
 
-  gotochat(userid) {
-    this.router.navigate(['/dashboard/chat']);
+  gotochat(contactId, userId) {
+    this.router.navigate(['/dashboard/chat/' + contactId + '/' + userId]);
   }
 }
