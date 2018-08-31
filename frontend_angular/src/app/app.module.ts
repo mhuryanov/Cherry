@@ -34,6 +34,8 @@ import { MomentModule } from 'angular2-moment';
 import { MomentTimezoneModule } from 'angular-moment-timezone';
 import { ChatComponent } from './chat/chat.component';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { ChatService } from './shared/services/chat.service';
+import { WebsocketService } from './shared/services/websocket.service';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,9 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     ActionService,
     AuthguardService,
     LoginService,
-    ContactsService
+    ContactsService,
+    ChatService,
+    WebsocketService
     // NgbModal
   ],
   bootstrap: [AppComponent]

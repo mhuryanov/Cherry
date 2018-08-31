@@ -6,6 +6,7 @@ import { StatusService } from '../shared/services/status.service';
 import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
 import { TemplateService } from '../shared/services/template.service';
+import { ChatService } from '../shared/services/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -43,7 +44,8 @@ export class ChatComponent implements OnInit {
     private statusService: StatusService,
     private actionService: ActionService,
     private staffService: StaffService,
-    private templateService: TemplateService
+    private templateService: TemplateService,
+    private chatService: ChatService
   ) {
     var me = this;
     this.contactId = activedRoute.snapshot.params['contactId'];
@@ -94,6 +96,9 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.chatService.messages.subscribe(msg => {
+      console.log(msg);
+    });
   }
 
   saveNote() {
@@ -166,5 +171,9 @@ export class ChatComponent implements OnInit {
         }
       });
     });
+  }
+
+  sendMessage() {
+    this.chatService.sendMsg('Test Message');
   }
 }
