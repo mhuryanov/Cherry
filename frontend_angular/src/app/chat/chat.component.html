@@ -35,7 +35,11 @@
           </div> 
         </td>
         <td>
-
+          <div class="chat-content">
+            <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}">
+              <div class="chat-content">{{chatItem.msg}}</div>
+            </div>
+          </div>
         </td>
       </tr>
       <tr>
@@ -99,13 +103,13 @@
             </div>
 
             <div class="col-md-12" class="templates-div">
-              <label *ngFor="let template of showTemplates" class="template-item">{{template.name}}</label>
+              <label *ngFor="let template of showTemplates" class="template-item" (click)="clickTempItem(template.name)">{{template.name}}</label>
             </div>
           </div>
 
           <div class="row" style="padding-top: 15px;">
             <div class="col-md-12">
-              <textarea name="" class="form-control"></textarea>
+              <textarea name="" class="form-control" [(ngModel)]="sendMessageStr"></textarea>
             </div>
             <div class="col-md-12 text-right">
               <button class="btn btn-success" style="margin-top: 15px;" (click)="sendMessage()">Enter</button>

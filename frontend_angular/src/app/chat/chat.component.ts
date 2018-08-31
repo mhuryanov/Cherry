@@ -33,6 +33,12 @@ export class ChatComponent implements OnInit {
 
   searchTemplateStr = '';
 
+  sendMessageStr = '';
+
+  staffId;
+
+  chatContentsArray = [];
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -69,6 +75,7 @@ export class ChatComponent implements OnInit {
 
         me.staffService.getStaffName(me.contactInfo['staff']).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
+          me.staffId = staff['data'][0]['id'];
         });
 
         var tagIds = me.contactInfo['tags'].split(',');
@@ -96,8 +103,13 @@ export class ChatComponent implements OnInit {
   }
 
   ngOnInit() {
+    var me = this;
     this.chatService.messages.subscribe(msg => {
-      console.log(msg);
+      // console.log(msg);
+      // alert(msg.text);
+      me.chatContentsArray.push(msg.text);
+      console.log(me.chatContentsArray);
+      
     });
   }
 
@@ -174,6 +186,20 @@ export class ChatComponent implements OnInit {
   }
 
   sendMessage() {
-    this.chatService.sendMsg('Test Message');
+    if (this.sendMessageStr === '') {
+      return;
+    }
+    var data = {
+      type: 'staffTouser',
+      staffId: this.staffId,
+      userId: this.userId,
+      msg: this.sendMessageStr
+    };
+    this.chatService.sendMsg(data);
+    this.sendMessageStr = '';
+  }
+
+  clickTempItem(temp) {
+    this.sendMessageStr += temp;
   }
 }
