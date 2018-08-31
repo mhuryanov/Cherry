@@ -13,6 +13,7 @@ import { ManagestatusComponent } from './admin/managestatus/managestatus.compone
 import { ManageactionsComponent } from './admin/manageactions/manageactions.component';
 import { AuthguardService } from './shared/services/authguard.service';
 import { ChatComponent } from './chat/chat.component';
+import { ChatdemoComponent } from './chatdemo/chatdemo.component';
 
 const routes: Routes = [
     {
@@ -59,6 +60,10 @@ const routes: Routes = [
     },
     {
         path: '', redirectTo: '/login', pathMatch: 'full'
+    },
+    {
+        path: 'chatdemo',
+        component: ChatdemoComponent
     }
 ];
 

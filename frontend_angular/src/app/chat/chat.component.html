@@ -34,11 +34,14 @@
             </div>
           </div> 
         </td>
-        <td>
-          <div class="chat-content">
-            <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}">
+        <td style="position: relative;">
+          <div class="chat-content" style="position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;">
+            <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
+                  [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,
+                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}">
               <div class="chat-content">{{chatItem.msg}}</div>
             </div>
+            <div id='scrollToView' style=""></div>
           </div>
         </td>
       </tr>

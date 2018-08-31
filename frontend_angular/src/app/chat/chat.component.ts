@@ -105,11 +105,15 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     var me = this;
     this.chatService.messages.subscribe(msg => {
-      // console.log(msg);
-      // alert(msg.text);
-      me.chatContentsArray.push(msg.text);
-      console.log(me.chatContentsArray);
-      
+      console.log(msg);
+      if (msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+        me.chatContentsArray.push(msg.text);
+        var elmnt = document.getElementById('scrollToView');
+        // elmnt.scrollIntoView();
+        setTimeout(() => {
+          elmnt.scrollIntoView();
+        }, 100);
+      }
     });
   }
 

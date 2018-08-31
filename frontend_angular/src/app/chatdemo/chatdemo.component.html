@@ -1,0 +1,32 @@
+<div class="container">
+  <div class="row" style="margin-top: 20px;">
+    <div class="col-md-3">
+      <label for="">StaffId</label>
+      <input type="text" class="form-control" placeholder="staffId" [(ngModel)]="staffId">
+    </div>
+    <div class="col-md-3">
+      <label for="">UserId</label>
+      <input type="text" class="form-control" placeholder="userId" [(ngModel)]='userId'>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;" *ngIf="staffId && userId">
+    <div class="col-md-12">
+      <div class="chat-content-div">
+        <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
+          [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,
+                      'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}">
+          <div class="chat-content">{{chatItem.msg}}</div>
+        </div>
+        <div id='scrollToView'></div>
+      </div>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px;" *ngIf="staffId && userId">
+    <div class="col-md-10">
+      <input type="text" class="form-control" placeholder="Message" [(ngModel)]="sendMessageStr">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success" (click)="sendMessage()">Send</button>
+    </div>
+  </div>
+</div>

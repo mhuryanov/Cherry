@@ -36,6 +36,7 @@ import { ChatComponent } from './chat/chat.component';
 import { SlideshowModule } from 'ng-simple-slideshow';
 import { ChatService } from './shared/services/chat.service';
 import { WebsocketService } from './shared/services/websocket.service';
+import { ChatdemoComponent } from './chatdemo/chatdemo.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { WebsocketService } from './shared/services/websocket.service';
     ManagetemplatesComponent,
     ManagestatusComponent,
     ManageactionsComponent,
-    ChatComponent
+    ChatComponent,
+    ChatdemoComponent
   ],
   imports: [
     BrowserModule,
