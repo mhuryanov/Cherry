@@ -56,6 +56,7 @@ export class ChatComponent implements OnInit {
     var me = this;
     this.contactId = activedRoute.snapshot.params['contactId'];
     this.userId = activedRoute.snapshot.params['userId'];
+    this.staffId =  localStorage.getItem('userId');
     contactService.getUserProfile(this.userId).subscribe(data => {
       if (data['error'] === 0) {
         me.userProfile = data['data'][0];
@@ -73,9 +74,18 @@ export class ChatComponent implements OnInit {
           me.contactInfo['actions'] = action['data'][0];
         });
 
-        me.staffService.getStaffName(me.contactInfo['staff']).subscribe(staff => {
+        me.staffService.getStaffName(me.staffId).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
           me.staffId = staff['data'][0]['id'];
+          me.contactService.updateContact(me.contactId, {staff: me.staffId, status: 2}).subscribe(data1 => {
+            if (data1['success'] === 1) {
+              me.chatService.sendMsg({
+                type: 'startChat',
+                staffId: me.staffId,
+                userId: me.userId
+              });
+            }
+          });
         });
 
         var tagIds = me.contactInfo['tags'].split(',');
@@ -106,7 +116,7 @@ export class ChatComponent implements OnInit {
     var me = this;
     this.chatService.messages.subscribe(msg => {
       console.log(msg);
-      if (msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+      if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
         me.chatContentsArray.push(msg.text);
         var elmnt = document.getElementById('scrollToView');
         // elmnt.scrollIntoView();

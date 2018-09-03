@@ -2,11 +2,11 @@
   <div class="row" style="margin-top: 20px;">
     <div class="col-md-3">
       <label for="">StaffId</label>
-      <input type="text" class="form-control" placeholder="staffId" [(ngModel)]="staffId">
+      <input type="text" class="form-control" placeholder="staffId" [(ngModel)]="staffId" disabled>
     </div>
     <div class="col-md-3">
       <label for="">UserId</label>
-      <input type="text" class="form-control" placeholder="userId" [(ngModel)]='userId'>
+      <input type="text" class="form-control" placeholder="userId" [(ngModel)]='userId' disabled>
     </div>
   </div>
   <div class="row" style="margin-top: 20px;" *ngIf="staffId && userId">
@@ -23,7 +23,7 @@
   </div>
   <div class="row" style="margin-top: 20px;" *ngIf="staffId && userId">
     <div class="col-md-10">
-      <input type="text" class="form-control" placeholder="Message" [(ngModel)]="sendMessageStr">
+      <input type="text" class="form-control" placeholder="Message" [(ngModel)]="sendMessageStr" (keyup.enter)="sendMessage()">
     </div>
     <div class="col-md-2">
       <button class="btn btn-success" (click)="sendMessage()">Send</button>

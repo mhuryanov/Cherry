@@ -34,4 +34,8 @@ export class ContactsService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
   }
 
+  updateByUserId(userId, contactData) {
+    return this.http.put(config.baseURL + 'api/contactsupdate/' + userId, contactData);
+  }
+
 }

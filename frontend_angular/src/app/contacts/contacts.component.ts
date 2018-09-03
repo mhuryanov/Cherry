@@ -5,6 +5,7 @@ import { StatusService } from '../shared/services/status.service';
 import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ChatService } from '../shared/services/chat.service';
 
 @Component({
   selector: 'app-contacts',
@@ -32,7 +33,8 @@ export class ContactsComponent implements OnInit {
     private statusService: StatusService,
     private actionService: ActionService,
     private staffService: StaffService,
-    private router: Router
+    private router: Router,
+    private chatService: ChatService
   ) {
     this.loadContacts();
    }
@@ -88,6 +90,12 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit() {
+    var me = this;
+    this.chatService.messages.subscribe(msg => {
+      if (msg.text.type === 'changedstatus') {
+       me.loadContacts();
+      }
+    });
   }
 
   filter() {
