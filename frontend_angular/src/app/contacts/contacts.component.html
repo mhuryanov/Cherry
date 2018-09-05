@@ -38,7 +38,7 @@
       <button class="btn btn-success" data-toggle="dropdown">Action</button>
       <ul class="dropdown-menu">
         <li (click)="deleteSelected()">Delete</li>
-        <li>Send Bulk Messages</li>
+        <li (click)="showBulkMsg()">Send Bulk Messages</li>
       </ul>
     </div>
   </div>
@@ -71,6 +71,15 @@
     </div>
     <div class="col-md-4 filter-item">
       <input type="text" placeholder="note" class="form-control" (input)="filter()" [(ngModel)]="noteFilter">
+    </div>
+  </div>
+
+  <div class="row sendbulkmsg" *ngIf="isShowSendBuldMsg">
+    <div class="col-md-10">
+      <input type="text" class="form-control" [(ngModel)]="bulkMsgStr">
+    </div>
+    <div class="col-md-2">
+      <button class="btn btn-success" (click)="sendBulkMsg()">Send Bulk Message</button>
     </div>
   </div>
   
@@ -113,7 +122,7 @@
           <td>
              {{contact.date_of_creation | amTz:'America/Chicago'}}
           </td>
-          <td>{{contact.staff}}</td>
+          <td>{{contact.staffName}}</td>
           <td>{{contact.rating}}</td>
           <td>{{contact.time}}s</td>
           <td>{{contact.note}}</td>

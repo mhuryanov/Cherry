@@ -26,6 +26,8 @@ export class ContactsComponent implements OnInit {
   ratingFilter = '';
   noteFilter = '';
   timeFilter = '';
+  isShowSendBuldMsg = false;
+  bulkMsgStr = '';
 
   constructor(
     private contactsService: ContactsService,
@@ -79,9 +81,9 @@ export class ContactsComponent implements OnInit {
           });
 
           me.staffService.getStaffName(contact['staff']).subscribe(staff => {
-            contact['staff'] = staff['data'][0]['name'];
+            contact['staffName'] = staff['data'][0]['name'];
           });
-          
+
           me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
             console.log(chat);
             if (chat['success'] === 1) {
@@ -89,8 +91,6 @@ export class ContactsComponent implements OnInit {
             }
           });
           contact['check'] = false;
-
-
         });
 
         me.contactsListShow = me.contactsList;
@@ -134,7 +134,6 @@ export class ContactsComponent implements OnInit {
       return el.check;
     });
 
-    console.log(checkedList);
     if (checkedList.length === 0) {
       alert('Please select contact list to delete!');
       return;
@@ -142,7 +141,6 @@ export class ContactsComponent implements OnInit {
 
     checkedList.map(contact => {
       me.contactsService.delete(contact.id).subscribe(data => {
-        console.log(data);
         me.loadContacts();
       });
     });
@@ -150,5 +148,40 @@ export class ContactsComponent implements OnInit {
 
   gotochat(contactId, userId) {
     this.router.navigate(['/dashboard/chat/' + contactId + '/' + userId]);
+  }
+
+  showBulkMsg() {
+    var me = this;
+    var checkedList = [];
+    checkedList = me.contactsListShow.filter(function (el) {
+      return el.check;
+    });
+
+    if (checkedList.length === 0) {
+      alert('Please select contact list to send bulk msg!');
+      return;
+    }
+
+    this.isShowSendBuldMsg = !this.isShowSendBuldMsg;
+  }
+
+  sendBulkMsg() {
+    var me = this;
+    var checkedList = [];
+    checkedList = me.contactsListShow.filter(function (el) {
+      return el.check;
+    });
+
+    checkedList.map(contactItem => {
+      me.chatService.sendMsg({
+        type: 'staffTouser',
+        staffId: contactItem.staff,
+        userId: contactItem.user_id,
+        msg: me.bulkMsgStr
+      });
+    });
+
+    me.bulkMsgStr = '';
+    me.isShowSendBuldMsg = false;
   }
 }
