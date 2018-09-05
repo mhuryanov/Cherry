@@ -49,21 +49,30 @@
       <tr>
         <td>
           <div class="row" *ngIf="contactInfo">
-            <div class="col-md-6">
+            <div class="col-md-6" style="display: flex;">
               <label>Status:</label>
-              <label>{{contactInfo['status']['name']}}</label>
+              <!-- <label>{{contactInfo['status']['name']}}</label> -->
+              <select class="form-control" [(ngModel)]="contactInfo.status" (change)="changeStatus()">
+                <option *ngFor="let status of statusArray;" [value]="status.id">{{status.name}}</option>
+              </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="display: flex;">
               <label>Actions:</label>
-              <label>{{contactInfo['actions']['name']}}</label>
+              <!-- <label>{{contactInfo['actions']['name']}}</label> -->
+              <select class="form-control" [(ngModel)]="contactInfo.actions" (change)="changeAction()">
+                <option *ngFor="let action of actionArray;" [value]="action.id">{{action.name}}</option>
+              </select>
             </div>
             <div class="col-md-6">
               <label>Staff:</label>
               <label>{{contactInfo['staff']['name']}}</label>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="display: flex;">
               <label>Rating:</label>
-              <label>{{contactInfo['rating']}}</label>
+              <!-- <label>{{contactInfo['rating']}}</label> -->
+              <select class="form-control" [(ngModel)]="contactInfo.rating" (change)="changeRating()">
+                <option *ngFor="let i of ratingArray;">{{i}}</option>
+              </select>
             </div>
           </div>
 
