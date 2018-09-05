@@ -46,6 +46,10 @@ export class ChatComponent implements OnInit {
 
   ratingArray = [0, 1, 2, 3, 4, 5];
 
+  chatTime = 0;
+
+  chatTimeIntervarl;
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -65,6 +69,7 @@ export class ChatComponent implements OnInit {
     this.userId = activedRoute.snapshot.params['userId'];
     this.staffId =  localStorage.getItem('userId');
     this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
+
       chatContents['data'].map(chatItem => {
         me.chatContentsArray.push({
           type: chatItem['message_type'],
@@ -97,6 +102,14 @@ export class ChatComponent implements OnInit {
         // me.actionService.getActionName(me.contactInfo['actions']).subscribe(action => {
         //   me.contactInfo['actions'] = action['data'][0];
         // });
+        me.chatTime = me.contactInfo['time'];
+
+        me.chatTimeIntervarl =  setInterval(function () {
+          me.chatTime++;
+          me.contactService.updateContact(me.contactId, {time: me.chatTime}).subscribe(data1 => {
+            console.log(data1);
+          });
+        }, 1000);
 
         me.staffService.getStaffName(me.staffId).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
@@ -296,5 +309,9 @@ export class ChatComponent implements OnInit {
   changeRating() {
     this.contactService.updateContact(this.contactId, { rating: this.contactInfo['rating'] }).subscribe(data => {
     });
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.chatTimeIntervarl);
   }
 }

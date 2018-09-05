@@ -81,7 +81,16 @@ export class ContactsComponent implements OnInit {
           me.staffService.getStaffName(contact['staff']).subscribe(staff => {
             contact['staff'] = staff['data'][0]['name'];
           });
+          
+          me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
+            console.log(chat);
+            if (chat['success'] === 1) {
+              contact['messages'] = chat['data'][0];
+            }
+          });
           contact['check'] = false;
+
+
         });
 
         me.contactsListShow = me.contactsList;

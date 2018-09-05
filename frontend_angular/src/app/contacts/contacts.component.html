@@ -104,7 +104,12 @@
           </td>
           <td>{{contact.status}}</td>
           <td>{{contact.actions}}</td>
-          <td>{{contact.messages}}</td>
+          <td>
+              <div [ngClass]="{'text-success': contact.messages.message_type === 'staffTouser', 'text-danger': contact.messages.message_type === 'userTostaff'}">
+                <p>{{contact.messages.message}}</p>
+                <p>{{contact.messages.updated | amTz:'America/Chicago'}}</p>
+              </div>
+          </td>
           <td>
              {{contact.date_of_creation | amTz:'America/Chicago'}}
           </td>
