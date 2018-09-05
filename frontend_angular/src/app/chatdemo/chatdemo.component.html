@@ -15,7 +15,8 @@
         <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
           [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId,
                       'othermsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId}">
-          <div class="chat-content">{{chatItem.msg}}</div>
+          <div class="chat-content" *ngIf="!chatItem.isMedia">{{chatItem.msg}}</div>
+          <div class="chat-content" *ngIf="chatItem.isMedia"><img [src]="chatItem.msg" style="max-width: 100%;"></div>
         </div>
         <div id='scrollToView'></div>
       </div>

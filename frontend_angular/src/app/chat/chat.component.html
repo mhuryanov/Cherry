@@ -39,7 +39,8 @@
             <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
                   [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,
                               'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}">
-              <div class="chat-content">{{chatItem.msg}}</div>
+              <div class="chat-content" *ngIf="!chatItem.isMedia">{{chatItem.msg}}</div>
+              <div class="chat-content" *ngIf="chatItem.isMedia"><img [src]="chatItem.msg" style="max-width: 100%;"></div>
             </div>
             <div id='scrollToView' style=""></div>
           </div>
@@ -115,6 +116,8 @@
               <textarea name="" class="form-control" [(ngModel)]="sendMessageStr" (keyup.enter)="sendMessage()"></textarea>
             </div>
             <div class="col-md-12 text-right">
+              <button class="btn btn-default" style="margin-top: 15px;" (click)="selectImage()"><i class="fa fa-image"></i></button>
+              <input type="file" accept=".jpg, .png, .jpeg" id="profile-imgage-upload" style="display: none;" (change)="fileChange($event)">
               <button class="btn btn-success" style="margin-top: 15px;" (click)="sendMessage()">Enter</button>
             </div>
           </div>

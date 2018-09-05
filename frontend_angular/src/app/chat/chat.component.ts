@@ -7,6 +7,7 @@ import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
 import { TemplateService } from '../shared/services/template.service';
 import { ChatService } from '../shared/services/chat.service';
+import { config } from '../shared/modules/config.model';
 
 @Component({
   selector: 'app-chat',
@@ -57,6 +58,24 @@ export class ChatComponent implements OnInit {
     this.contactId = activedRoute.snapshot.params['contactId'];
     this.userId = activedRoute.snapshot.params['userId'];
     this.staffId =  localStorage.getItem('userId');
+    this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
+      chatContents['data'].map(chatItem => {
+        me.chatContentsArray.push({
+          type: chatItem['message_type'],
+          staffId: me.staffId,
+          userId: me.userId,
+          msg: chatItem['message'],
+          isMedia: chatItem['isMedia'] === 0 ? false : true
+        });
+      });
+
+      var elmnt = document.getElementById('scrollToView');
+      // elmnt.scrollIntoView();
+      setTimeout(() => {
+        elmnt.scrollIntoView();
+      }, 1000);
+      
+    });
     contactService.getUserProfile(this.userId).subscribe(data => {
       if (data['error'] === 0) {
         me.userProfile = data['data'][0];
@@ -215,5 +234,34 @@ export class ChatComponent implements OnInit {
 
   clickTempItem(temp) {
     this.sendMessageStr += temp;
+  }
+
+  selectImage() {
+    document.getElementById('profile-imgage-upload').click();
+  }
+
+  fileChange(event) {
+    let fileList: FileList = event.target.files;
+    var me = this;
+    if (fileList.length > 0) {
+      let file: File = fileList[0];
+      let formData: FormData = new FormData();
+      formData.append('photo', file, file.name);
+
+      this.chatService.uploadProfileImage(formData).subscribe((data: any) => {
+        var upload_url = config.baseURL + data.url;
+        // this.profileService.editProfile(this.profile).subscribe(data1 => {
+        //   // location.reload();
+        // });
+        var msgdata = {
+          type: 'staffTouser',
+          staffId: me.staffId,
+          userId: me.userId,
+          msg: upload_url,
+          isMedia: true
+        };
+        me.chatService.sendMsg(msgdata);
+      });
+    }
   }
 }
