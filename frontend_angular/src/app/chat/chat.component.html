@@ -36,11 +36,27 @@
         </td>
         <td style="position: relative;">
           <div class="chat-content" style="position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;">
-            <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
+            <!-- <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
                   [ngClass]="{'selfmsg':chatItem.staffId == staffId && chatItem.type == 'staffTouser' && chatItem.userId == userId,
-                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}">
-              <div class="chat-content" *ngIf="!chatItem.isMedia">{{chatItem.msg}}</div>
-              <div class="chat-content" *ngIf="chatItem.isMedia"><img [src]="chatItem.msg" style="max-width: 100%;"></div>
+                              'othermsg':chatItem.staffId == staffId && chatItem.type == 'userTostaff' && chatItem.userId == userId}"> -->
+            <div class="chat-content-item" *ngFor="let chatItem of chatContentsArray;" 
+                  [ngClass]="{'selfmsg': chatItem.type == 'staffTouser' ,
+                              'othermsg': chatItem.type == 'userTostaff' }">
+                <div class="message-content">
+                  <div class="username" *ngIf="chatItem.type == 'staffTouser'">
+                    <span *ngFor="let staffItem of staffArray;">
+                      <span *ngIf="staffItem.id == chatItem.staffId ">{{staffItem.name}}</span>
+                    </span>
+                  </div>
+
+                  <div class="username" *ngIf="chatItem.type == 'userTostaff'">
+                    <span *ngFor="let userItem of profileArray;">
+                      <span *ngIf="userItem.id == chatItem.userId ">{{userItem.first_name + ' '+ userItem.last_name}}</span>
+                    </span>
+                  </div>
+                  <div class="chat-content" *ngIf="!chatItem.isMedia">{{chatItem.msg}}</div>
+                  <div class="chat-content" *ngIf="chatItem.isMedia"><img [src]="chatItem.msg" style="max-width: 100%;"></div>
+                </div>
             </div>
             <div id='scrollToView' style=""></div>
           </div>

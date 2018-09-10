@@ -50,6 +50,10 @@ export class ChatComponent implements OnInit {
 
   chatTimeIntervarl;
 
+  staffArray = [];
+
+  profileArray = [];
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -68,9 +72,34 @@ export class ChatComponent implements OnInit {
     this.contactId = activedRoute.snapshot.params['contactId'];
     this.userId = activedRoute.snapshot.params['userId'];
     this.staffId =  localStorage.getItem('userId');
-    this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
 
+    this.staffService.getStaffList().subscribe(staffs => {
+      me.staffArray = staffs['data'];
+    });
+
+    this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
       chatContents['data'].map(chatItem => {
+        var username = '';
+        if (chatItem['message_type'] === 'userTostaff') {
+          contactService.getUserProfile(chatItem['user_id']).subscribe(data => {
+            if (data['error'] === 0) {
+              // me.userProfile = data['data'][0];
+              // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
+              // console.log('user profile');
+              // console.log(data);
+              // me.profileArray.push(data['data'][0]);
+              var exist = false;
+              me.profileArray.map(temp => {
+                if (temp.id === data['data'][0]['id']) {
+                  exist = true;
+                }
+              });
+              if (!exist) {
+                me.profileArray.push(data['data'][0]);
+              }
+            }
+          });
+        }
         me.chatContentsArray.push({
           type: chatItem['message_type'],
           staffId: me.staffId,
@@ -107,11 +136,11 @@ export class ChatComponent implements OnInit {
         me.chatTimeIntervarl =  setInterval(function () {
           me.chatTime++;
           me.contactService.updateContact(me.contactId, {time: me.chatTime}).subscribe(data1 => {
-            console.log(data1);
+            // console.log(data1);
           });
         }, 1000);
 
-        me.staffService.getStaffName(me.staffId).subscribe(staff => {
+        me.staffService.getStaff(me.staffId).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
           me.staffId = staff['data'][0]['id'];
           me.contactService.updateContact(me.contactId, {staff: me.staffId, status: 2}).subscribe(data1 => {
@@ -162,11 +191,14 @@ export class ChatComponent implements OnInit {
     });
   }
 
+
+
   ngOnInit() {
     var me = this;
     this.chatService.messages.subscribe(msg => {
       console.log(msg);
-      if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+      // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
+      if (msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') {
         me.chatContentsArray.push(msg.text);
         var elmnt = document.getElementById('scrollToView');
         // elmnt.scrollIntoView();

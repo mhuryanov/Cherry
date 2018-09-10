@@ -33,7 +33,8 @@ export class ChatService {
   }
 
   loadChatContent(staffId, userId) {
-    return this.http.get(config.baseURL + 'api/chart_' + staffId + '_' + userId, {headers: this.header});
+    // return this.http.get(config.baseURL + 'api/chart_' + staffId + '_' + userId, {headers: this.header});
+    return this.http.get(config.baseURL + 'api/chart', { headers: this.header });
   }
 
   getLastMsg(staffId, userId) {

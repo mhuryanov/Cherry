@@ -16,7 +16,7 @@
    justify-content: flex-end;
 
    .chat-content {
-     width: 80%;
+    //  width: 80%;
      color: black;
      background: #ddd;
      padding: 10px;
@@ -28,11 +28,19 @@
  .othermsg{
      width: 100%;
      .chat-content{
-         width: 80%;
+        //  width: 80%;
          background: #0f58dc;
          color: white;
          padding: 10px;
          margin: 10px;
          border-radius: 5px;
      }
+    
+     .username {
+       margin-left: 10px;
+     }
  }
+
+  .message-content {
+    width: 80%;
+  }

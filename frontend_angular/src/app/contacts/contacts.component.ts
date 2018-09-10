@@ -80,7 +80,7 @@ export class ContactsComponent implements OnInit {
             contact['actions'] = action['data'][0]['name'];
           });
 
-          me.staffService.getStaffName(contact['staff']).subscribe(staff => {
+          me.staffService.getStaff(contact['staff']).subscribe(staff => {
             contact['staffName'] = staff['data'][0]['name'];
           });
 
