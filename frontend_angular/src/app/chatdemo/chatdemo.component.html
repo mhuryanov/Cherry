@@ -23,7 +23,7 @@
           <div class="message-content">
             <div class="username" *ngIf="chatItem.type == 'userTostaff'">
               <span *ngFor="let userItem of profileArray;">
-                <span *ngIf="userItem.id == chatItem.userId ">{{userItem.first_name + ' '+ userItem.last_name}}</span>
+                <span *ngIf="userItem.user_id == chatItem.userId ">{{userItem.first_name + ' '+ userItem.last_name}}</span>
               </span>
             </div>
 
