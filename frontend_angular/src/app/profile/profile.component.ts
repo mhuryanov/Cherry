@@ -71,6 +71,12 @@ export class ProfileComponent implements OnInit {
     this.profileService.changePassword(this.changePassword).subscribe(data => {
       if (data['error'] === 1) {
         me.isChangePassword = false;
+        me.changePassword = {
+          current: '',
+          confirm: '',
+          new: '',
+          id: me.profileService.id
+        };
       }
     });
   }

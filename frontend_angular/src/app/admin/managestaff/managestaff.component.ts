@@ -81,6 +81,7 @@ export class ManagestaffComponent implements OnInit {
       this.staffList = [];
       this.staffService.getStaffList().subscribe(data1 => {
         data1['data'].map(staff => {
+          staff['password'] = '';
           this.staffList.push(staff);
         });
       });
@@ -93,6 +94,7 @@ export class ManagestaffComponent implements OnInit {
     this.staffService.editStaff(this.editStaff).subscribe(data => {
       console.log(data);
       me.viewStatus = 0;
+      this.editStaff['password'] = '';
     });
   }
 
@@ -130,6 +132,7 @@ export class ManagestaffComponent implements OnInit {
       me.staffService.getStaffList().subscribe(data => {
         me.staffList = [];
         data['data'].map(staff => {
+          staff['password'] = '';
           me.staffList.push(staff);
         });
       });
