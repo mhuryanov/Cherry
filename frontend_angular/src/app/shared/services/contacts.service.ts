@@ -30,6 +30,54 @@ export class ContactsService {
     return this.http.get(config.baseURL + 'remote/getUserProfile/' + userId, { headers: this.header });
   }
 
+  getUserPhotos(userId) {
+    return this.http.get(config.baseURL + 'remote/getUserPhotos/' + userId, { headers: this.header });
+  }
+
+  getUserProductPayment(userId) {
+    return this.http.get(config.baseURL + 'remote/getUserProductPayment/' + userId, { headers: this.header });
+  }
+
+  getUserSocialData(userId) {
+    return this.http.get(config.baseURL + 'remote/getUserSocialData/' + userId, { headers: this.header });
+  }
+
+  getUserInterest(userId) {
+    return this.http.get(config.baseURL + 'remote/getUserInterest/' + userId, { headers: this.header });
+  }
+
+  getUserInterestHobby(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestHobby/' + id, { headers: this.header });
+  }
+
+  getUserInterestGame(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestGame/' + id, { headers: this.header });
+  }
+
+  getUserInterestMusic(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestMusic/' + id, { headers: this.header });
+  }
+
+  getUserInterestSport(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestSport/' + id, { headers: this.header });
+  }
+
+  getUserInterestFood(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestFood/' + id, { headers: this.header });
+  }
+
+  getUserInterestDrink(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestDrink/' + id, { headers: this.header });
+  }
+
+  getUserInterestBook(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestBook/' + id, { headers: this.header });
+  }
+
+  getUserInterestMovie(id) {
+    return this.http.get(config.baseURL + 'remote/getUserInterestMovie/' + id, { headers: this.header });
+  }
+
   updateContact(contactId, contactData) {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
   }

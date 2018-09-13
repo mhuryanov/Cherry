@@ -6,6 +6,7 @@ import { ActionService } from '../shared/services/action.service';
 import { StaffService } from '../shared/services/staff.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChatService } from '../shared/services/chat.service';
+import { config } from '../shared/modules/config.model';
 
 @Component({
   selector: 'app-contacts',
@@ -28,6 +29,8 @@ export class ContactsComponent implements OnInit {
   timeFilter = '';
   isShowSendBuldMsg = false;
   bulkMsgStr = '';
+
+  staffList = [];
 
   constructor(
     private contactsService: ContactsService,
@@ -60,7 +63,6 @@ export class ContactsComponent implements OnInit {
         });
 
         me.contactsList.map(contact => {
-          // console.log(contact['tags']);
           var tagIds = contact['tags'].split(',');
           contact['tagsArray'] = [];
           tagIds.map(tagId => {
@@ -85,9 +87,19 @@ export class ContactsComponent implements OnInit {
           });
 
           me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
-            console.log(chat);
             if (chat['success'] === 1) {
               contact['messages'] = chat['data'][0];
+            }
+          });
+
+          me.contactsService.getUserProfile(contact['user_id']).subscribe(user => {
+            if (user['error'] === 0 && user['data'].length > 0) {
+              contact['profile_image'] = user['data'][0]['image'];
+              if (contact['profile_image'] === '' || contact['profile_image'] === '/upload/profile-placeholder.png') {
+                contact['profile_image'] = config.baseURL + 'avartar.png';
+              }
+
+              contact['name'] = user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'];
             }
           });
           contact['check'] = false;
@@ -95,6 +107,12 @@ export class ContactsComponent implements OnInit {
 
         me.contactsListShow = me.contactsList;
       }
+    });
+
+    this.staffService.getStaffList().subscribe(stafflist => {
+      me.staffList = stafflist['data'];
+      console.log(me.staffList);
+      
     });
   }
 
@@ -109,7 +127,6 @@ export class ContactsComponent implements OnInit {
 
   filter() {
     var me = this;
-    console.log(me.contactsListShow);
     me.contactsListShow = me.contactsList.filter(function (el) {
       if (!me.isAdvancedFiltering) {
         return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
@@ -118,9 +135,9 @@ export class ContactsComponent implements OnInit {
         && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
         && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
         && el.actions.toLowerCase().includes(me.actionsFilter.toLowerCase())
-        && el.messages.toLowerCase().includes(me.messagesFilter.toLowerCase())
+        // && el.messages.toLowerCase().includes(me.messagesFilter.toLowerCase())
         && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
-        && el.staff.toLowerCase().includes(me.staffFilter.toLowerCase())
+        // && el.staff.toLowerCase().includes(me.staffFilter.toLowerCase())
         && el.rating.toString().toLowerCase().includes(me.ratingFilter.toLowerCase())
         && el.time.toString().toLowerCase().includes(me.timeFilter.toLowerCase())
         && el.note.toLowerCase().includes(me.noteFilter.toLowerCase());
@@ -183,5 +200,16 @@ export class ContactsComponent implements OnInit {
 
     me.bulkMsgStr = '';
     me.isShowSendBuldMsg = false;
+  }
+
+  assignStaff(contactId, staffId) {
+    var me = this;
+    var contactData = {
+      staff : staffId
+    };
+
+    this.contactsService.updateContact(contactId, contactData).subscribe(data => {
+      me.loadContacts();
+    });
   }
 }

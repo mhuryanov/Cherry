@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  // ws_url: 'http://localhost:3000'
-  ws_url: 'http://34.220.128.209:3000'
+  ws_url: 'http://localhost:3000'
+  // ws_url: 'http://34.220.128.209:3000'
 };

@@ -3,7 +3,7 @@ import { StaffService } from '../../shared/services/staff.service';
 import { Staff } from '../../shared/modules/staff.model';
 import { ProfileService } from '../../shared/services/profile.service';
 import { config } from '../../shared/modules/config.model';
-
+import { Md5 } from 'ts-md5/dist/md5';
 
 @Component({
   selector: 'app-managestaff',
@@ -27,6 +27,7 @@ export class ManagestaffComponent implements OnInit {
   ) {
     staffService.getStaffList().subscribe(data => {
       data['data'].map(staff => {
+        staff['password'] = '';
         this.staffList.push(staff);
       });
     });
@@ -88,6 +89,7 @@ export class ManagestaffComponent implements OnInit {
 
   clickEditStaff() {
     var me = this;
+    this.editStaff['password'] = Md5.hashStr(this.editStaff['password']);
     this.staffService.editStaff(this.editStaff).subscribe(data => {
       console.log(data);
       me.viewStatus = 0;
@@ -116,5 +118,21 @@ export class ManagestaffComponent implements OnInit {
         }
       });
     }
+  }
+
+  deleteStaffClick(staffId) {
+    var ok = confirm('Do you want to delete this Staff?');
+    if (!ok) {
+      return;
+    }
+    var me = this;
+    this.staffService.deleteStaff(staffId).subscribe(data1 => {
+      me.staffService.getStaffList().subscribe(data => {
+        me.staffList = [];
+        data['data'].map(staff => {
+          me.staffList.push(staff);
+        });
+      });
+    });
   }
 }

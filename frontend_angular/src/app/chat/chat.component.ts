@@ -18,6 +18,23 @@ export class ChatComponent implements OnInit {
   contactId;
   userId;
   userProfile = false;
+  userPhotos = [];
+  userProductPayment = '';
+  userSocialData = {
+    isFacebookConnected : '-',
+    isTwitterConnected : '-',
+    isInstagramConnected : '-'
+  };
+
+  userInterestHobby = [];
+  userInterestGame = [];
+  userInterestMusic = [];
+  userInterestSport = [];
+  userInterestFood = [];
+  userInterestDrink = [];
+  userInterestBook = [];
+  userInterestMovie = [];
+
   contactInfo;
 
   saveNoteBtnStr = 'Save';
@@ -47,6 +64,8 @@ export class ChatComponent implements OnInit {
   ratingArray = [0, 1, 2, 3, 4, 5];
 
   chatTime = 0;
+  chartTimeMin = '0';
+  chartTimeSec = '0';
 
   chatTimeIntervarl;
 
@@ -86,8 +105,6 @@ export class ChatComponent implements OnInit {
               if (data['error'] === 0 && data['data'].length > 0) {
                 // me.userProfile = data['data'][0];
                 // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
-                console.log('user profile');
-                console.log(data);
                 // me.profileArray.push(data['data'][0]);
                 var exist = false;
                 me.profileArray.map(temp => {
@@ -120,13 +137,154 @@ export class ChatComponent implements OnInit {
       }, 1000);
     });
     contactService.getUserProfile(this.userId).subscribe(data => {
-      console.log('userprofil');
-      
-      console.log(data);
+      // console.log('userprofile');
+      // console.log(data);
       if (data['error'] === 0) {
         me.userProfile = data['data'][0];
       }
     });
+
+    contactService.getUserPhotos(this.userId).subscribe(data => {
+      if (data['error'] === 0 && data['data'].length > 0) {
+        me.userPhotos = data['data'];
+        me.imageUrlArray = [];
+        me.userPhotos.map(photo => {
+          me.imageUrlArray.push(photo['name']);
+        });
+      }
+    });
+
+    contactService.getUserProductPayment(this.userId).subscribe(data => {
+      if (data['error'] === 0 && data['data'].length > 0) {
+        me.userProductPayment = data['data'][0]['order_status'];
+      }
+    });
+
+    contactService.getUserSocialData(this.userId).subscribe(data => {
+      // console.log(data);
+      if (data['error'] === 0 && data['data'].length > 0) {
+        data['data'].map(socialdata => {
+          switch (socialdata['type']) {
+            case 'facebook':
+              me.userSocialData.isFacebookConnected = 'connected';
+              break;
+            case 'twitter':
+              me.userSocialData.isTwitterConnected = 'connected';
+              break;
+            case 'instagram':
+              me.userSocialData.isInstagramConnected = 'connected';
+              break;
+            default:
+              break;
+          }
+        });
+      }
+    });
+
+    contactService.getUserInterest(this.userId).subscribe(interests => {
+      console.log(interests);
+      if (interests['error'] === 0 && interests['data'].length > 0) {
+        interests['data'].map(interest => {
+          switch (interest['interest_type']) {
+            case 'hobby':
+              var hobby_ids = interest['interest_id'].split(',');
+              hobby_ids.map(id => {
+                me.userInterestHobby = [];
+                me.contactService.getUserInterestHobby(id).subscribe(hobby => {
+                  if (hobby['error'] === 0 && hobby['data'].length > 0) {
+                    me.userInterestHobby.push(hobby['data'][0]);
+                  }
+                });
+              });
+              break;
+            case 'game':
+              var game_ids = interest['interest_id'].split(',');
+              game_ids.map(id => {
+                me.userInterestGame = [];
+                me.contactService.getUserInterestGame(id).subscribe(game => {
+                  if (game['error'] === 0 && game['data'].length > 0) {
+                    me.userInterestGame.push(game['data'][0]);
+                  }
+                });
+              });
+              break;
+            case 'music':
+              var music_ids = interest['interest_id'].split(',');
+              music_ids.map(id => {
+                me.userInterestMusic = [];
+                me.contactService.getUserInterestMusic(id).subscribe(music => {
+                  if (music['error'] === 0 && music['data'].length > 0) {
+                    me.userInterestMusic.push(music['data'][0]);
+                  }
+                });
+              });
+              break;
+            case 'sport':
+              var sport_ids = interest['interest_id'].split(',');
+              sport_ids.map(id => {
+                me.userInterestSport = [];
+                me.contactService.getUserInterestSport(id).subscribe(sport => {
+                  if (sport['error'] === 0 && sport['data'].length > 0) {
+                    me.userInterestSport.push(sport['data'][0]);
+                  }
+                });
+              });
+              break;
+            case 'food':
+              var food_ids = interest['interest_id'].split(',');
+              food_ids.map(id => {
+                me.userInterestFood = [];
+                me.contactService.getUserInterestFood(id).subscribe(food => {
+                  if (food['error'] === 0 && food['data'].length > 0) {
+                    me.userInterestFood.push(food['data'][0]);
+                  }
+                });
+              });
+              break;
+            case 'drink':
+              var drink_ids = interest['interest_id'].split(',');
+              drink_ids.map(id => {
+                me.userInterestDrink = [];
+                me.contactService.getUserInterestDrink(id).subscribe(drink => {
+                  if (drink['error'] === 0 && drink['data'].length > 0) {
+                    me.userInterestDrink.push(drink['data'][0]);
+                  }
+                });
+              });
+              break;
+
+            case 'book':
+              var book_ids = interest['interest_id'].split(',');
+              book_ids.map(id => {
+                me.userInterestBook = [];
+                me.contactService.getUserInterestDrink(id).subscribe(book => {
+                  if (book['error'] === 0 && book['data'].length > 0) {
+                    me.userInterestBook.push(book['data'][0]);
+                  }
+                });
+              });
+              break;
+
+            case 'movie':
+              var moive_ids = interest['interest_id'].split(',');
+              moive_ids.map(id => {
+                me.userInterestMovie = [];
+                me.contactService.getUserInterestMovie(id).subscribe(movie => {
+                  if (movie['error'] === 0 && movie['data'].length > 0) {
+                    me.userInterestMovie.push(movie['data'][0]);
+                  }
+                });
+              });
+              break;
+
+            default:
+              break;
+          }
+        });
+      }
+    });
+
+
 
     contactService.getContact(this.contactId).subscribe(data => {
       if (data['success'] === 1) {
@@ -139,9 +297,13 @@ export class ChatComponent implements OnInit {
         //   me.contactInfo['actions'] = action['data'][0];
         // });
         me.chatTime = me.contactInfo['time'];
+        me.chartTimeMin = Math.floor(me.chatTime / 60).toString();
+        me.chartTimeSec = (me.chatTime % 60).toString();
 
         me.chatTimeIntervarl =  setInterval(function () {
           me.chatTime++;
+          me.chartTimeMin = Math.floor(me.chatTime / 60).toString();
+          me.chartTimeSec = (me.chatTime % 60).toString();
           me.contactService.updateContact(me.contactId, {time: me.chatTime}).subscribe(data1 => {
             // console.log(data1);
           });
@@ -193,7 +355,6 @@ export class ChatComponent implements OnInit {
     this.actionService.getActionList().subscribe(data => {
       if (data['success'] === 1) {
         me.actionArray = data['data'];
-        console.log(me.actionArray);
       }
     });
   }
@@ -203,7 +364,6 @@ export class ChatComponent implements OnInit {
   ngOnInit() {
     var me = this;
     this.chatService.messages.subscribe(msg => {
-      console.log(msg);
       // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
       if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && me.userId.toString() === msg.text.userId.toString() ) {
         me.chatContentsArray.push(msg.text);

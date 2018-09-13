@@ -38,7 +38,7 @@ export class ChatService {
   }
 
   getLastMsg(staffId, userId) {
-    return this.http.get(config.baseURL + 'api/last/chat');
+    return this.http.get(config.baseURL + 'api/last/chat/' + userId);
   }
 
 }

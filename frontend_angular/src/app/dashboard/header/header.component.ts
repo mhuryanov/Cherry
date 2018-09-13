@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
   activeURL = '/dashboard/home';
   profile;
   isLoadedProfile = false;
+  profilesubscribe;
 
   constructor(
     private router: Router,
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit {
 
     profileService.getProfile().subscribe(data => {
       var me = this;
-      this.profileService.getProfile().subscribe(data1 => {
+      this.profilesubscribe = this.profileService.getProfile().subscribe(data1 => {
         me.profile = {
           name: data1['data'][0].name,
           email: data1['data'][0].email,
@@ -38,7 +39,6 @@ export class HeaderComponent implements OnInit {
         this.isLoadedProfile = true;
       });
     });
-    
    }
 
   ngOnInit() {
@@ -49,7 +49,12 @@ export class HeaderComponent implements OnInit {
   }
 
   logout() {
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
+
+  // ngOnDestroy() {
+  //   this.profilesubscribe.unsubscribe();
+  // }
 
 }

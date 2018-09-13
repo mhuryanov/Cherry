@@ -13,12 +13,17 @@ export class ProfileService {
   constructor(
     private http: HttpClient
   ) {
+    
+  }
+
+  makeHeder() {
     this.token = localStorage.getItem('token');
     this.id = localStorage.getItem('userId');
-    this.header = new HttpHeaders({'token': this.token});
+    this.header = new HttpHeaders({ 'token': this.token });
   }
 
   getProfile() {
+    this.makeHeder();
     return this.http.get(config.baseURL + 'api/users/' + this.id, {headers: this.header});
   }
 

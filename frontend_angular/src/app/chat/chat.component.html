@@ -1,5 +1,5 @@
 <div class="chat">
-  <div class="text-right">Total time in Conversation: {{chatTime}}s</div>
+  <div class="text-right">Total time in Conversation: {{chartTimeMin}}:{{chartTimeSec}}</div>
   
   <div>
     <table class="table table-bordered">
@@ -16,21 +16,56 @@
             </slideshow>
           </div>
           <div *ngIf="userProfile" class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
               <p>First Name: {{userProfile["first_name"]}}</p>
               <p>Last Name: {{userProfile['last_name']}}</p>
               <p>Birthday: {{userProfile['dob'] | amDateFormat: 'YYYY-MM-DD' }}</p>
               <p>Gender: {{userProfile['gender'] == 1 ? 'Man': 'Woman'}}</p>
-              <p>Orientation: {{userProfile['orientation'] == null ? '-': userProfile['orientation']}}</p>
-              <p>Education: {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>           
-            </div>
-            <div class="col-md-6">
-              <p>Address: {{userProfile['address'] == null || userProfile['address'] == '' ? '-': userProfile['address']}}</p>
+              <p>Sex orientation : {{userProfile['show_me'] == '1,1' ? 'Both': ''}}
+                                   {{userProfile['show_me'] == '0,1'|| userProfile['show_me'] == ',1' ? 'Female': ''}}
+                                   {{userProfile['show_me'] == '1,0'|| userProfile['show_me'] == '1,' ? 'Male': ''}}
+              </p>
+              <p>Ages looking for : {{userProfile['age_range']}}</p>
               <p>City: {{userProfile['city'] == null || userProfile['city'] == '' ? '-': userProfile['city']}}</p>
-              <p>Country: {{userProfile['country'] == null || userProfile['country'] == '' ? '-': userProfile['country']}}</p>
+              <p>State: {{userProfile['state'] == null || userProfile['state'] == '' ? '-': userProfile['state']}}</p>
               <p>ZipCode: {{userProfile['zipcode'] == null || userProfile['zipcode'] == '' ? '-': userProfile['zipcode']}}</p>
+              <p>Occupation : {{userProfile['profession']}}</p>
+              <p>Height: {{userProfile['height']}}</p>
+              <p>Education Level : {{userProfile['education_level']}}</p>
+              <p>School : {{userProfile['education'] == null || userProfile['education'] == '' ? '-': userProfile['education']}}</p>
               <p>About Me: {{userProfile['about_me'] == null || userProfile['about_me'] == '' ? '-': userProfile['about_me']}}</p>
-              <p>Interest: {{userProfile['interest'] == null || userProfile['interest'] == '' ? '-': userProfile['interest']}}</p>
+              <p>Profile Picture : <img [src]="userProfile['image']"></p>
+              <p>Attraction Badge status : {{userProductPayment}}</p>
+              <p>isFacebookConnected : {{userSocialData.isFacebookConnected}}</p>
+              <p>isTwitterConnected : {{userSocialData.isTwitterConnected}}</p>
+              <p>isInstagramConnected : {{userSocialData.isInstagramConnected}}</p>
+              <p>Activist Badge : {{userProfile['bone_marrow_donor'] == '0' ? 'NOT' : (userProfile['bone_marrow_donor'] == '1' ? 'Consent': 'Registered')}}</p>
+              
+              <p>Interest:</p>
+              <p>Hobbies : 
+                  <span *ngFor="let hobby of userInterestHobby;" class="interest-item">{{hobby.name}}</span>
+              </p>
+              <p>Games :
+                <span *ngFor="let game of userInterestGame;" class="interest-item">{{game.name}}</span>
+              </p>
+              <p>Musics :
+                <span *ngFor="let music of userInterestMusic;" class="interest-item">{{music.title}}</span>
+              </p>
+              <p>Sports :
+                <span *ngFor="let sport of userInterestSport;" class="interest-item">{{sport.name}}</span>
+              </p>
+              <p>Foods :
+                <span *ngFor="let food of userInterestFood;" class="interest-item">{{food.title}}</span>
+              </p>
+              <p>Drinks :
+                <span *ngFor="let drink of userInterestDrink;" class="interest-item">{{drink.name}}</span>
+              </p>
+              <p>Books :
+                <span *ngFor="let book of userInterestBook;" class="interest-item">{{book.name}}</span>
+              </p>
+              <p>Movies :
+                <span *ngFor="let movie of userInterestMovie;" class="interest-item">{{movie.title}}</span>
+              </p>
             </div>
           </div> 
         </td>

@@ -122,7 +122,11 @@
           <td>
              {{contact.date_of_creation | amTz:'America/Chicago'}}
           </td>
-          <td>{{contact.staffName}}</td>
+          <td>
+            <select class="form-control" [(ngModel)]="contact.staff" (change)="assignStaff(contact.id, $event.target.value)">
+              <option *ngFor="let staff of staffList;" [value]="staff.id">{{staff.name}}</option>
+            </select>
+          </td>
           <td>{{contact.rating}}</td>
           <td>{{contact.time}}s</td>
           <td>{{contact.note}}</td>

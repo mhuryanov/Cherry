@@ -28,11 +28,6 @@ export class ChatdemoComponent implements OnInit {
   ) {
     var me = this;
     this.userId = activedRoute.snapshot.params['userId'];
-    var contactData = {
-      status: 1
-    };
-
-
     this.staffService.getStaffList().subscribe(staffs => {
       me.staffArray = staffs['data'];
       console.log(me.staffArray);
@@ -80,14 +75,16 @@ export class ChatdemoComponent implements OnInit {
         elmnt.scrollIntoView();
       }, 1000);
     });
-
-    this.contactService.updateByUserId(this.userId, contactData).subscribe(data => {
-      if (data['success'] === 1) {
-        me.chatService.sendMsg({
-          type: 'changedstatus'
-        });
-      }
-    });
+    // var contactData = {
+    //   status: 1
+    // };
+    // this.contactService.updateByUserId(this.userId, contactData).subscribe(data => {
+    //   if (data['success'] === 1) {
+    //     me.chatService.sendMsg({
+    //       type: 'changedstatus'
+    //     });
+    //   }
+    // });
 
     // this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
 
