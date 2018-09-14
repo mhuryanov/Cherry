@@ -346,15 +346,15 @@ export class ChatComponent implements OnInit {
         me.staffService.getStaff(me.staffId).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
           me.staffId = staff['data'][0]['id'];
-          me.contactService.updateContact(me.contactId, {staff: me.staffId, status: 2}).subscribe(data1 => {
-            if (data1['success'] === 1) {
+          // me.contactService.updateContact(me.contactId, { status: 2}).subscribe(data1 => {
+          //   if (data1['success'] === 1) {
               me.chatService.sendMsg({
                 type: 'startChat',
                 staffId: me.staffId,
                 userId: me.userId
               });
-            }
-          });
+          //   }
+          // });
         });
 
         var tagIds = me.contactInfo['tags'].split(',');

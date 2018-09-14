@@ -16,13 +16,15 @@ import * as enLocale from 'date-fns/locale/en';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  public date = '';
+  public date = new Date();
   options: DatepickerOptions = {
     locale: enLocale,
     addClass: 'form-control',
     addStyle: {width: '100%'},
     displayFormat: 'YYYY-MM-DD',
     placeholder: 'Date of Creation',
+    minYear: 2018,
+    maxYear: 2100,
   };
   contactsList = [];
   contactsListShow = [];
