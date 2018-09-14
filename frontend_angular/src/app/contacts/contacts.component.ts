@@ -22,6 +22,7 @@ export class ContactsComponent implements OnInit {
     addClass: 'form-control',
     addStyle: {width: '100%'},
     displayFormat: 'YYYY-MM-DD',
+    placeholder: 'Date of Creation',
   };
   contactsList = [];
   contactsListShow = [];
