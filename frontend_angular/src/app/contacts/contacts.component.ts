@@ -7,13 +7,22 @@ import { StaffService } from '../shared/services/staff.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ChatService } from '../shared/services/chat.service';
 import { config } from '../shared/modules/config.model';
-
+import { NgDatepickerModule } from 'ng2-datepicker';
+import { DatepickerOptions } from 'ng2-datepicker';
+import * as enLocale from 'date-fns/locale/en';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
+  public date = '';
+  options: DatepickerOptions = {
+    locale: enLocale,
+    addClass: 'form-control',
+    addStyle: {width: '100%'},
+    displayFormat: 'YYYY-MM-DD',
+  };
   contactsList = [];
   contactsListShow = [];
   isAdvancedFiltering = false;
@@ -65,14 +74,18 @@ export class ContactsComponent implements OnInit {
         me.contactsList.map(contact => {
           var tagIds = contact['tags'].split(',');
           contact['tagsArray'] = [];
+          contact['tags'] = '';
           tagIds.map(tagId => {
             me.tagService.getTagName(tagId).subscribe(tag => {
               contact['tagsArray'].push(tag['data'][0]);
+              contact['tags'] += tag['data'][0]['name'];
             });
           });
-          me.tagService.getTagName(contact['tags']).subscribe(tag => {
-            contact['tags'] = tag['data'][0]['name'];
-          });
+
+          // me.tagService.getTagName(contact['tags']).subscribe(tag => {
+          //   contact['tags'] += tag['data'][0]['name'];
+          //   console.log(contact['tags']);
+          // });
 
           me.statusService.getStatusName(contact['status']).subscribe(status => {
             contact['status'] = status['data'][0]['name'];
@@ -102,6 +115,9 @@ export class ContactsComponent implements OnInit {
               contact['name'] = user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'];
             }
           });
+          var min = Math.floor(contact['time'] / 60).toString();
+          var sec = (contact['time'] % 60).toString();
+          contact['time'] = min + ':' + sec;
           contact['check'] = false;
         });
 
@@ -131,13 +147,33 @@ export class ContactsComponent implements OnInit {
       if (!me.isAdvancedFiltering) {
         return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
       }
+      console.log(el.date_of_creation);
+      // console.log(me.date);
+      
+      
+      var d = new Date(me.date),
+       month = '' + (d.getMonth() + 1),
+       day = '' + d.getDate(),
+       year = d.getFullYear();
+
+      if (month.length < 2) { month = '0' + month; }
+      if (day.length < 2) { day = '0' + day; }
+      
+      var real_data = [year, month, day].join('-');
+      if (real_data === 'NaN-NaN-NaN') {
+        real_data = '';
+      }
+      console.log(real_data);
+      
+
       return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
         && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
         && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
         && el.actions.toLowerCase().includes(me.actionsFilter.toLowerCase())
-        // && el.messages.toLowerCase().includes(me.messagesFilter.toLowerCase())
-        && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
-        // && el.staff.toLowerCase().includes(me.staffFilter.toLowerCase())
+        && el.messages.message.toLowerCase().includes(me.messagesFilter.toLowerCase())
+        // && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
+        && el.date_of_creation.toLowerCase().includes(real_data.toLowerCase())
+        && el.staffName.toLowerCase().includes(me.staffFilter.toLowerCase())
         && el.rating.toString().toLowerCase().includes(me.ratingFilter.toLowerCase())
         && el.time.toString().toLowerCase().includes(me.timeFilter.toLowerCase())
         && el.note.toLowerCase().includes(me.noteFilter.toLowerCase());
@@ -211,5 +247,12 @@ export class ContactsComponent implements OnInit {
     this.contactsService.updateContact(contactId, contactData).subscribe(data => {
       me.loadContacts();
     });
+  }
+
+  clickAdvance() {
+    this.isAdvancedFiltering = !this.isAdvancedFiltering;
+    if (!this.isAdvancedFiltering) {
+      this.filter();
+    }
   }
 }

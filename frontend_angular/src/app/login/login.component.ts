@@ -10,8 +10,8 @@ import { LoginService } from '../shared/services/login.service';
 export class LoginComponent implements OnInit {
 
   userInfo = {
-    email: 'admin@mail.com',
-    password: 'soksunae'
+    email: '',
+    password: ''
   };
   isEmailErrorValidation = false;
   isPasswordErrorValidation = false;

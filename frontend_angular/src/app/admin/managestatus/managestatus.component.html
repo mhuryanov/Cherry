@@ -21,7 +21,7 @@
             <td>{{status.name}}</td>
             <td>
               <button class="btn btn-success" (click)="editStatusClick(status.id)">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <button class="btn btn-danger" (click)="deleteStatus(status.id)">Delete</button>
             </td>
           </tr>
         </tbody>

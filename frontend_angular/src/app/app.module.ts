@@ -2,8 +2,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule } from '@angular/forms';
-
-
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
@@ -37,7 +35,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 import { ChatService } from './shared/services/chat.service';
 import { WebsocketService } from './shared/services/websocket.service';
 import { ChatdemoComponent } from './chatdemo/chatdemo.component';
-
+import { NgDatepickerModule } from 'ng2-datepicker';
 @NgModule({
   declarations: [
     AppComponent,
@@ -65,7 +63,8 @@ import { ChatdemoComponent } from './chatdemo/chatdemo.component';
     DataTableModule,
     MomentModule,
     MomentTimezoneModule,
-    SlideshowModule
+    SlideshowModule,
+    NgDatepickerModule
     // NgbModule.forRoot()
   ],
   providers: [

@@ -10,6 +10,7 @@
       
       <tr>
         <td>
+          <div style="max-height: 550px; overflow: scroll;">
           <div class="slider-div">
             <slideshow [height]="'300px'" [autoPlay]="true" [showArrows]="true" [imageUrls]="imageUrlArray"
             [autoPlayWaitForLazyLoad]="true">
@@ -66,8 +67,18 @@
               <p>Movies :
                 <span *ngFor="let movie of userInterestMovie;" class="interest-item">{{movie.title}}</span>
               </p>
+
+              <p>HashTags : 
+                <span *ngFor="let tag of userHashTags;" class="interest-item">{{tag.title}}</span>
+              </p>
+
+              <p>TwitterHashTags :
+                <span *ngFor="let tag of userTwitterHashTags;" class="interest-item">{{tag.title}}</span>
+              </p>
+
             </div>
           </div> 
+          </div>
         </td>
         <td style="position: relative;">
           <div class="chat-content" style="position: absolute;top: 0; left: 0;height: 100%;width: 100%; overflow: scroll;">

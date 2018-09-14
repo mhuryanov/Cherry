@@ -21,7 +21,7 @@
             <td>{{tag.name}}</td>
             <td>
               <button class="btn btn-success" (click)="editTagClick(tag.id)">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <button class="btn btn-danger" (click)="deleteTag(tag.id)">Delete</button>
             </td>
           </tr>
         </tbody>

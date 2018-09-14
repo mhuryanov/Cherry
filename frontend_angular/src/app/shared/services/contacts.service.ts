@@ -78,6 +78,14 @@ export class ContactsService {
     return this.http.get(config.baseURL + 'remote/getUserInterestMovie/' + id, { headers: this.header });
   }
 
+  getUserHashCodes(user_id) {
+    return this.http.get(config.baseURL + 'remote/getUserHashCodes/' + user_id, { headers: this.header });
+  }
+
+  getUserHashCode(id) {
+    return this.http.get(config.baseURL + 'remote/getUserHashCode/' + id, { headers: this.header });
+  }
+
   updateContact(contactId, contactData) {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + contactId, contactData, { headers: this.header });
   }

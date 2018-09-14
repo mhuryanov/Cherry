@@ -71,4 +71,20 @@ export class ManagestatusComponent implements OnInit {
     });
   }
 
+  deleteStatus(id) {
+    var r = confirm('Do you want to delete Status?');
+    if (!r) {
+      return;
+    }
+    var me = this;
+    this.statusService.deleteStatus(id).subscribe(data => {
+      me.statusList = [];
+      me.statusService.getStatusList().subscribe(data1 => {
+        data1['data'].map(status => {
+          me.statusList.push(status);
+        });
+      });
+    });
+  }
+
 }

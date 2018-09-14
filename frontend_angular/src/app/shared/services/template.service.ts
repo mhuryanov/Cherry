@@ -30,4 +30,8 @@ export class TemplateService {
     return this.http.put(config.baseURL + 'api/' + this.table_name + '/' + editTemplate.id, editTemplate, { headers: this.header });
   }
 
+  deleteTemplate(templateId) {
+    return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + templateId, { headers: this.header });
+  }
+
 }

@@ -32,7 +32,7 @@
       <input type="text" placeholder="Search Name" class="form-control" (input)="filter()" [(ngModel)]="searchFilter">
     </div>
     
-    <div class="col-md-2 btn btn-default" (click)="isAdvancedFiltering = !isAdvancedFiltering ; filter()">Advanced Filtering</div>
+    <div class="col-md-2 btn btn-default" (click)="clickAdvance()">Advanced Filtering</div>
 
     <div class="col-md-2 dropdown">
       <button class="btn btn-success" data-toggle="dropdown">Action</button>
@@ -56,8 +56,9 @@
     <div class="col-md-4 filter-item">
       <input type="text" placeholder="messages" class="form-control" [(ngModel)]="messagesFilter" (input)="filter()">
     </div>
-    <div class="col-md-4 filter-item">
-      <input type="text" placeholder="date of creation" class="form-control" (input)="filter()" [(ngModel)]="dateofcreationFilter">
+    <div class="col-md-4 filter-item" style="z-index: 1;">
+      <!-- <input type="text" placeholder="date of creation" class="form-control" (input)="filter()" [(ngModel)]="dateofcreationFilter"> -->
+      <ng-datepicker [(ngModel)]="date" [options]="options" (ngModelChange)="filter()" [headless]="false"></ng-datepicker>
     </div>
 
     <div class="col-md-4 filter-item">
@@ -128,10 +129,13 @@
             </select>
           </td>
           <td>{{contact.rating}}</td>
-          <td>{{contact.time}}s</td>
+          <td>{{contact.time}}</td>
           <td>{{contact.note}}</td>
         </tr>
       </tbody>
     </table>
+   
   </div>
+
+  
 </div>

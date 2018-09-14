@@ -71,4 +71,20 @@ export class ManagetagsComponent implements OnInit {
     });
   }
 
+  deleteTag(id) {
+    var r = confirm('Do you want to delete Tag?');
+    if (!r) {
+      return;
+    }
+    var me = this;
+    this.tagService.deleteTag(id).subscribe(data => {
+      me.tagList = [];
+      me.tagService.getTagList().subscribe(data1 => {
+        data1['data'].map(tag => {
+          me.tagList.push(tag);
+        });
+      });
+    });
+  }
+
 }

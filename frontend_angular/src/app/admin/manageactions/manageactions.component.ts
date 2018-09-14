@@ -72,4 +72,21 @@ export class ManageactionsComponent implements OnInit {
     });
   }
 
+  deleteAction(id) {
+    var r = confirm('Do you want to delete Action?');
+    if (!r) {
+      return;
+    }
+    var me = this;
+    this.actionService.deleteAction(id).subscribe(data => {
+      me.actionList = [];
+
+      me.actionService.getActionList().subscribe(data1 => {
+        data1['data'].map(action => {
+          me.actionList.push(action);
+        });
+      });
+    });
+  }
+
 }

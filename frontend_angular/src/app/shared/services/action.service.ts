@@ -32,4 +32,8 @@ export class ActionService {
     return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
   }
 
+  deleteAction(actionId) {
+    return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + actionId, { headers: this.header });
+  }
+
 }

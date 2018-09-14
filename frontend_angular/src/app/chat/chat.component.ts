@@ -34,7 +34,8 @@ export class ChatComponent implements OnInit {
   userInterestDrink = [];
   userInterestBook = [];
   userInterestMovie = [];
-
+  userHashTags = [];
+  userTwitterHashTags = [];
   contactInfo;
 
   saveNoteBtnStr = 'Save';
@@ -257,7 +258,7 @@ export class ChatComponent implements OnInit {
               var book_ids = interest['interest_id'].split(',');
               book_ids.map(id => {
                 me.userInterestBook = [];
-                me.contactService.getUserInterestDrink(id).subscribe(book => {
+                me.contactService.getUserInterestBook(id).subscribe(book => {
                   if (book['error'] === 0 && book['data'].length > 0) {
                     me.userInterestBook.push(book['data'][0]);
                   }
@@ -280,6 +281,39 @@ export class ChatComponent implements OnInit {
             default:
               break;
           }
+        });
+      }
+    });
+
+    contactService.getUserHashCodes(this.userId).subscribe(hashcodes => {
+      if (hashcodes['error'] === 0 && hashcodes['data'].length > 0) {
+        console.log(hashcodes);
+        var hastags = hashcodes['data'][0]['hash_tags'].split(',');
+        var twitterhashtags = hashcodes['data'][0]['twitter_hashtags'].split(',');
+        
+        hastags.map(tag => {
+          if (tag === '') {
+            return;
+          }
+          me.contactService.getUserHashCode(tag).subscribe(tagInfo => {
+            console.log(tagInfo);
+            
+            if (tagInfo['error'] === 0 && tagInfo['data'].length > 0) {
+              me.userHashTags.push(tagInfo['data'][0]);
+            }
+          });
+        });
+
+        twitterhashtags.map(tag => {
+          if (tag === '') {
+            return;
+          }
+          me.contactService.getUserHashCode(tag).subscribe(tagInfo => {
+            console.log(tagInfo);
+            if (tagInfo['error'] === 0 && tagInfo['data'].length > 0) {
+              me.userTwitterHashTags.push(tagInfo['data'][0]);
+            }
+          });
         });
       }
     });

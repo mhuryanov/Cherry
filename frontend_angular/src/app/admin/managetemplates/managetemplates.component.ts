@@ -71,4 +71,19 @@ export class ManagetemplatesComponent implements OnInit {
     });
   }
 
+  deleteTemplate(id) {
+    var r = confirm('Do you want to delete Template?');
+    if (!r) {
+      return;
+    }
+    var me = this;
+    this.templateService.deleteTemplate(id).subscribe(data => {
+      me.templateList = [];
+      me.templateService.getTemplateList().subscribe(data1 => {
+        data1['data'].map(template => {
+          me.templateList.push(template);
+        });
+      });
+    });
+  }
 }

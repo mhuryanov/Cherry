@@ -105,7 +105,7 @@ export class ProfileComponent implements OnInit {
       this.profileService.uploadProfileImage(formData).subscribe((data: any) => {
         this.profile.avartar = config.baseURL + data.url;
         this.profileService.editProfile(this.profile).subscribe(data1 => {
-          // location.reload();
+          location.reload();
         });
       });
     }

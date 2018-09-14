@@ -21,7 +21,7 @@
             <td>{{action.name}}</td>
             <td>
               <button class="btn btn-success" (click)="editActionClick(action.id)">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <button class="btn btn-danger" (click)="deleteAction(action.id)">Delete</button>
             </td>
           </tr>
         </tbody>

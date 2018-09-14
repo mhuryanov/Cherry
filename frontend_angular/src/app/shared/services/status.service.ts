@@ -34,5 +34,9 @@ export class StatusService {
     return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
   }
 
+  deleteStatus(statusId) {
+    return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + statusId, { headers: this.header });
+  }
+
 
 }

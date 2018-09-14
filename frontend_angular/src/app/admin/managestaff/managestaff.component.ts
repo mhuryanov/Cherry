@@ -75,7 +75,8 @@ export class ManagestaffComponent implements OnInit {
     }
 
     this.isNotPasswordMatched = false;
-
+    this.confirmPassword = '';
+    this.newStaff.password = Md5.hashStr(this.newStaff.password);
     this.staffService.addNewStaff(this.newStaff).subscribe(data => {
       this.viewStatus = 0;
       this.staffList = [];

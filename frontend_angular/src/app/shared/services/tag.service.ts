@@ -33,4 +33,8 @@ export class TagService {
     return this.http.get(config.baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
   }
 
+  deleteTag(tagId) {
+    return this.http.delete(config.baseURL + 'api/' + this.table_name + '/' + tagId, { headers: this.header });
+  }
+
 }

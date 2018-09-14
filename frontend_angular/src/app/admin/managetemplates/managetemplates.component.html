@@ -21,7 +21,7 @@
             <td>{{template.name}}</td>
             <td>
               <button class="btn btn-success" (click)="editTemplateClick(template.id)">Edit</button>
-              <button class="btn btn-danger">Delete</button>
+              <button class="btn btn-danger" (click)="deleteTemplate(template.id)">Delete</button>
             </td>
           </tr>
         </tbody>
