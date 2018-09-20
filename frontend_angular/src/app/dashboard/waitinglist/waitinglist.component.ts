@@ -13,7 +13,9 @@ export class WaitinglistComponent implements OnInit {
   constructor(
     private chatService: ChatService,
     private contactsService: ContactsService
-  ) { }
+  ) {
+    Notification.requestPermission();
+  }
 
   ngOnInit() {
     var me = this;
@@ -26,14 +28,13 @@ export class WaitinglistComponent implements OnInit {
             isExist = true;
           }
         });
-        
+
         if (isExist) {
           return;
         }
 
         me.contactsService.getUserProfile(userId).subscribe(user => {
           if (user['error'] === 0 && user['data'].length > 0) {
-            // contact['profile_image'] = user['data'][0]['image'];
             if (user['data'][0]['image'] === '' || user['data'][0]['image'] === '/upload/profile-placeholder.png') {
               user['data'][0]['image'] = config.baseURL + 'avartar.png';
             }
@@ -42,9 +43,35 @@ export class WaitinglistComponent implements OnInit {
               image: user['data'][0]['image'],
               name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name']
             });
+
+            var e = new Notification('New Request', {
+              body: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'] + 'is requesting to accept chat.',
+              icon: user['data'][0]['image']
+            });
+
+            e.onclick = function () {
+            };
           }
         });
-        
+      }
+
+      if (msg.text.type === 'userTostaff') {
+        var userId = msg.text.userId;
+        me.contactsService.getUserProfile(userId).subscribe(user => {
+          if (user['error'] === 0 && user['data'].length > 0) {
+            if (user['data'][0]['image'] === '' || user['data'][0]['image'] === '/upload/profile-placeholder.png') {
+              user['data'][0]['image'] = config.baseURL + 'avartar.png';
+            }
+
+            var e = new Notification(user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'] + 'is sending new message', {
+              body:  msg.text.msg,
+              icon: user['data'][0]['image']
+            });
+
+            e.onclick = function () {
+            };
+          }
+        });
       }
     });
   }
