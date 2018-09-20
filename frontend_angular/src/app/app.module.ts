@@ -36,6 +36,7 @@ import { ChatService } from './shared/services/chat.service';
 import { WebsocketService } from './shared/services/websocket.service';
 import { ChatdemoComponent } from './chatdemo/chatdemo.component';
 import { NgDatepickerModule } from 'ng2-datepicker';
+import { WaitinglistComponent } from './dashboard/waitinglist/waitinglist.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,7 +54,8 @@ import { NgDatepickerModule } from 'ng2-datepicker';
     ManagestatusComponent,
     ManageactionsComponent,
     ChatComponent,
-    ChatdemoComponent
+    ChatdemoComponent,
+    WaitinglistComponent
   ],
   imports: [
     BrowserModule,
