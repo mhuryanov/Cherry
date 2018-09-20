@@ -30,8 +30,6 @@ export class ChatdemoComponent implements OnInit {
     this.userId = activedRoute.snapshot.params['userId'];
     this.staffService.getStaffList().subscribe(staffs => {
       me.staffArray = staffs['data'];
-      console.log(me.staffArray);
-      
     });
 
     this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
@@ -41,11 +39,6 @@ export class ChatdemoComponent implements OnInit {
           if (chatItem['message_type'] === 'userTostaff') {
             contactService.getUserProfile(chatItem['user_id']).subscribe(data => {
               if (data['error'] === 0) {
-                // me.userProfile = data['data'][0];
-                // username = data['data'][0]['first_name'] + data['data'][0]['first_name'];
-              
-                // me.profileArray.push(data['data'][0]);
-
                 var exist = false;
                 me.profileArray.map(temp => {
                   if (temp.id === data['data'][0]['id']) {
@@ -70,40 +63,11 @@ export class ChatdemoComponent implements OnInit {
       });
 
       var elmnt = document.getElementById('scrollToView');
-      // elmnt.scrollIntoView();
       setTimeout(() => {
         elmnt.scrollIntoView();
       }, 1000);
     });
-    // var contactData = {
-    //   status: 1
-    // };
-    // this.contactService.updateByUserId(this.userId, contactData).subscribe(data => {
-    //   if (data['success'] === 1) {
-    //     me.chatService.sendMsg({
-    //       type: 'changedstatus'
-    //     });
-    //   }
-    // });
-
-    // this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
-
-    //   chatContents['data'].map(chatItem => {
-    //     me.chatContentsArray.push({
-    //       type: chatItem['message_type'],
-    //       staffId: me.staffId,
-    //       userId: me.userId,
-    //       msg: chatItem['message'],
-    //       isMedia: chatItem['isMedia'] === 0 ? false : true
-    //     });
-    //   });
-
-    //   var elmnt = document.getElementById('scrollToView');
-    //   // elmnt.scrollIntoView();
-    //   setTimeout(() => {
-    //     elmnt.scrollIntoView();
-    //   }, 1000);
-    // });
+    
   }
 
   ngOnInit() {
@@ -120,9 +84,12 @@ export class ChatdemoComponent implements OnInit {
 
       if (msg.text.type === 'startChat' && msg.text.userId.toString() === me.userId.toString()) {
         me.staffId =  msg.text.staffId;
-        // console.log(msg);
-        // console.log(me.staffId);
       }
+    });
+
+    this.chatService.sendMsg({
+      type : 'requestchat',
+      userId : this.userId
     });
   }
 
