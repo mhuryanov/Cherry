@@ -43,6 +43,8 @@ export class ContactsComponent implements OnInit {
   bulkMsgStr = '';
 
   staffList = [];
+  role = '';
+  interval;
 
   constructor(
     private contactsService: ContactsService,
@@ -53,7 +55,9 @@ export class ContactsComponent implements OnInit {
     private router: Router,
     private chatService: ChatService
   ) {
+    this.role = localStorage.getItem('role');
     this.loadContacts();
+   
    }
 
   loadContacts() {
@@ -62,7 +66,8 @@ export class ContactsComponent implements OnInit {
     var role = localStorage.getItem('role');
     me.contactsList = [];
     me.contactsListShow = [];
-    this.contactsService.getContacts().subscribe(data => {
+    console.log(me.contactsService);
+    me.contactsService.getContacts().subscribe(data => {
       if (data['success'] === 1) {
         data['data'].map(contact => {
           if (role.toString() === '2') {
@@ -85,11 +90,6 @@ export class ContactsComponent implements OnInit {
             });
           });
 
-          // me.tagService.getTagName(contact['tags']).subscribe(tag => {
-          //   contact['tags'] += tag['data'][0]['name'];
-          //   console.log(contact['tags']);
-          // });
-
           me.statusService.getStatusName(contact['status']).subscribe(status => {
             contact['status'] = status['data'][0]['name'];
           });
@@ -105,6 +105,7 @@ export class ContactsComponent implements OnInit {
           me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
             if (chat['success'] === 1) {
               contact['messages'] = chat['data'][0];
+             me.sort();
             }
           });
 
@@ -130,8 +131,22 @@ export class ContactsComponent implements OnInit {
 
     this.staffService.getStaffList().subscribe(stafflist => {
       me.staffList = stafflist['data'];
-      console.log(me.staffList);
-      
+      // console.log(me.staffList);
+    });
+  }
+
+  intervalFuc() {
+    this.loadContacts();
+  }
+
+  sort() {
+    var me  = this;
+    me.contactsListShow.sort(function (a, b) {
+      var return_val = 0;
+      if (a['messages']['updated'] > b['messages']['updated']) { return_val = 1; }
+      if (a['messages']['updated'] === b['messages']['updated']) { return_val = 0; }
+      if (a['messages']['updated'] < b['messages']['updated']) { return_val = -1; }
+      return return_val;
     });
   }
 
@@ -142,6 +157,79 @@ export class ContactsComponent implements OnInit {
        me.loadContacts();
       }
     });
+
+    this.interval = setInterval(function () {
+      var userId = localStorage.getItem('userId');
+      var role = localStorage.getItem('role');
+      me.contactsList = [];
+      me.contactsListShow = [];
+      console.log(me.contactsService);
+      me.contactsService.getContacts().subscribe(data => {
+        if (data['success'] === 1) {
+          data['data'].map(contact => {
+            if (role.toString() === '2') {
+              if (contact['staff'].toString() === userId) {
+                me.contactsList.push(contact);
+              }
+            } else {
+              me.contactsList.push(contact);
+            }
+          });
+
+          me.contactsList.map(contact => {
+            var tagIds = contact['tags'].split(',');
+            contact['tagsArray'] = [];
+            contact['tags'] = '';
+            tagIds.map(tagId => {
+              me.tagService.getTagName(tagId).subscribe(tag => {
+                contact['tagsArray'].push(tag['data'][0]);
+                contact['tags'] += tag['data'][0]['name'];
+              });
+            });
+
+            me.statusService.getStatusName(contact['status']).subscribe(status => {
+              contact['status'] = status['data'][0]['name'];
+            });
+
+            me.actionService.getActionName(contact['actions']).subscribe(action => {
+              contact['actions'] = action['data'][0]['name'];
+            });
+
+            me.staffService.getStaff(contact['staff']).subscribe(staff => {
+              contact['staffName'] = staff['data'][0]['name'];
+            });
+
+            me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
+              if (chat['success'] === 1) {
+                contact['messages'] = chat['data'][0];
+                me.sort();
+              }
+            });
+
+            me.contactsService.getUserProfile(contact['user_id']).subscribe(user => {
+              if (user['error'] === 0 && user['data'].length > 0) {
+                contact['profile_image'] = user['data'][0]['image'];
+                if (contact['profile_image'] === '' || contact['profile_image'] === '/upload/profile-placeholder.png') {
+                  contact['profile_image'] = config.baseURL + 'avartar.png';
+                }
+
+                contact['name'] = user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'];
+              }
+            });
+            var min = Math.floor(contact['time'] / 60).toString();
+            var sec = (contact['time'] % 60).toString();
+            contact['time'] = min + ':' + sec;
+            contact['check'] = false;
+          });
+
+          me.contactsListShow = me.contactsList;
+        }
+      });
+
+      me.staffService.getStaffList().subscribe(stafflist => {
+        me.staffList = stafflist['data'];
+      });
+    }, 5 * 60 * 1000);
   }
 
   filter() {
@@ -150,10 +238,7 @@ export class ContactsComponent implements OnInit {
       if (!me.isAdvancedFiltering) {
         return el.name.toLowerCase().includes(me.searchFilter.toLowerCase());
       }
-      console.log(el.date_of_creation);
-      // console.log(me.date);
-      
-      
+
       var d = new Date(me.date),
        month = '' + (d.getMonth() + 1),
        day = '' + d.getDate(),
@@ -166,8 +251,6 @@ export class ContactsComponent implements OnInit {
       if (real_data === 'NaN-NaN-NaN') {
         real_data = '';
       }
-      console.log(real_data);
-      
 
       return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
         && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
@@ -257,5 +340,9 @@ export class ContactsComponent implements OnInit {
     if (!this.isAdvancedFiltering) {
       this.filter();
     }
+  }
+
+  ngOnDestroy() {
+    clearInterval(this.interval);
   }
 }

@@ -124,7 +124,8 @@
              {{contact.date_of_creation | amTz:'America/Chicago'}}
           </td>
           <td>
-            <select class="form-control" [(ngModel)]="contact.staff" (change)="assignStaff(contact.id, $event.target.value)">
+            <span *ngIf="role == '2'">{{contact.staffName}}</span>
+            <select class="form-control" [(ngModel)]="contact.staff" (change)="assignStaff(contact.id, $event.target.value)" *ngIf="role == '1'">
               <option *ngFor="let staff of staffList;" [value]="staff.id">{{staff.name}}</option>
             </select>
           </td>

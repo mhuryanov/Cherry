@@ -74,6 +74,8 @@ export class ChatComponent implements OnInit {
 
   profileArray = [];
 
+
+
   imageUrlArray = [
     'https://cdn-images-1.medium.com/max/2000/1*y3c9ggOkOzdAr8JC7TUrEQ@2x.png',
     'https://cdn.dribbble.com/users/575153/screenshots/3661919/thumb.gif'
@@ -92,6 +94,7 @@ export class ChatComponent implements OnInit {
     this.contactId = activedRoute.snapshot.params['contactId'];
     this.userId = activedRoute.snapshot.params['userId'];
     this.staffId =  localStorage.getItem('userId');
+    
 
     this.staffService.getStaffList().subscribe(staffs => {
       me.staffArray = staffs['data'];
@@ -119,8 +122,9 @@ export class ChatComponent implements OnInit {
               }
             });
           }
-
-        if (chatItem['user_id'].toString() === me.userId.toString()) {
+        var role = localStorage.getItem('role');
+        // alert(role);
+        if (chatItem['user_id'].toString() === me.userId.toString() || role === '1') {
           me.chatContentsArray.push({
             type: chatItem['message_type'],
             staffId: chatItem['staff_id'],
