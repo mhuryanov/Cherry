@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChatService } from '../../shared/services/chat.service';
 import { ContactsService } from '../../shared/services/contacts.service';
 import { config } from '../../shared/modules/config.model';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-waitinglist',
@@ -12,7 +13,8 @@ export class WaitinglistComponent implements OnInit {
   waitingList = [];
   constructor(
     private chatService: ChatService,
-    private contactsService: ContactsService
+    private contactsService: ContactsService,
+    private router: Router
   ) {
     Notification.requestPermission();
   }
@@ -73,6 +75,23 @@ export class WaitinglistComponent implements OnInit {
           }
         });
       }
+    });
+  }
+
+  accept(waitItem) {
+    console.log(waitItem);
+    var me = this;
+    var checkData = {
+      userId: waitItem.userId,
+      staffId: localStorage.getItem('userId')
+    };
+    this.contactsService.contactCheck(checkData).subscribe(data => {
+      if (data['success'] === 1) {
+        me.router.navigate(['/dashboard/chat/' + data['message'] + '/' + waitItem.userId]);
+      } else {
+
+      }
+      
     });
   }
 

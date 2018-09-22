@@ -17,4 +17,7 @@ export class LoginService {
     return this.http.post(config.baseURL + 'users/login', userInfo);
   }
 
+  getToken() {
+    return this.http.get(config.baseURL + 'users/token');
+  }
 }

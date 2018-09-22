@@ -3,6 +3,7 @@ import { ChatService } from '../shared/services/chat.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContactsService } from '../shared/services/contacts.service';
 import { StaffService } from '../shared/services/staff.service';
+import { LoginService } from '../shared/services/login.service';
 
 @Component({
   selector: 'app-chatdemo',
@@ -24,20 +25,35 @@ export class ChatdemoComponent implements OnInit {
     private chatService: ChatService,
     private activedRoute: ActivatedRoute,
     private contactService: ContactsService,
-    private staffService: StaffService
+    private staffService: StaffService,
+    private loginService: LoginService
   ) {
     var me = this;
     this.userId = activedRoute.snapshot.params['userId'];
-    this.staffService.getStaffList().subscribe(staffs => {
+    var token = localStorage.getItem('token');
+    if (token) {
+      this.preProcess();
+    } else {
+      this.loginService.getToken().subscribe(tokenData => {
+        localStorage.setItem('token', tokenData['token']);
+        me.preProcess();
+      });
+    }
+    
+  }
+
+  preProcess() {
+    var me = this;
+    me.staffService.getStaffList().subscribe(staffs => {
       me.staffArray = staffs['data'];
     });
 
-    this.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
+    me.chatService.loadChatContent(this.staffId, this.userId).subscribe(chatContents => {
       chatContents['data'].map(chatItem => {
         var username = '';
         if (chatItem['user_id'].toString() === me.userId.toString()) {
           if (chatItem['message_type'] === 'userTostaff') {
-            contactService.getUserProfile(chatItem['user_id']).subscribe(data => {
+            me.contactService.getUserProfile(chatItem['user_id']).subscribe(data => {
               if (data['error'] === 0) {
                 var exist = false;
                 me.profileArray.map(temp => {
@@ -67,7 +83,6 @@ export class ChatdemoComponent implements OnInit {
         elmnt.scrollIntoView();
       }, 1000);
     });
-    
   }
 
   ngOnInit() {

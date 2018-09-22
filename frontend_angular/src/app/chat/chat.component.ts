@@ -322,8 +322,6 @@ export class ChatComponent implements OnInit {
       }
     });
 
-
-
     contactService.getContact(this.contactId).subscribe(data => {
       if (data['success'] === 1) {
         me.contactInfo = data['data'][0];

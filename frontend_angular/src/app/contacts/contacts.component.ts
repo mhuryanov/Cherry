@@ -143,9 +143,9 @@ export class ContactsComponent implements OnInit {
     var me  = this;
     me.contactsListShow.sort(function (a, b) {
       var return_val = 0;
-      if (a['messages']['updated'] > b['messages']['updated']) { return_val = 1; }
+      if (a['messages']['updated'] > b['messages']['updated']) { return_val = -1; }
       if (a['messages']['updated'] === b['messages']['updated']) { return_val = 0; }
-      if (a['messages']['updated'] < b['messages']['updated']) { return_val = -1; }
+      if (a['messages']['updated'] < b['messages']['updated']) { return_val = 1; }
       return return_val;
     });
   }
