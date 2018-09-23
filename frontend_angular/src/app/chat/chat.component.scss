@@ -65,4 +65,11 @@
         padding: 0 2px;
         cursor: pointer;
      }
+
+     .tag-item{
+         .tag-item-remove{
+             cursor: pointer;
+             color: red;
+         }
+     }
 }

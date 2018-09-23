@@ -124,7 +124,15 @@ export class ChatComponent implements OnInit {
           }
         var role = localStorage.getItem('role');
         // alert(role);
-        if (chatItem['user_id'].toString() === me.userId.toString() || role === '1') {
+        if (role === '1') {
+          me.chatContentsArray.push({
+            type: chatItem['message_type'],
+            staffId: chatItem['staff_id'],
+            userId: chatItem['user_id'],
+            msg: chatItem['message'],
+            isMedia: chatItem['isMedia'] === 0 ? false : true
+          });
+        } else if (chatItem['user_id'].toString() === me.userId.toString() && role === '2') {
           me.chatContentsArray.push({
             type: chatItem['message_type'],
             staffId: chatItem['staff_id'],
@@ -146,6 +154,7 @@ export class ChatComponent implements OnInit {
       // console.log(data);
       if (data['error'] === 0) {
         me.userProfile = data['data'][0];
+        me.profileArray.push(me.userProfile);
       }
     });
 
@@ -362,9 +371,11 @@ export class ChatComponent implements OnInit {
         var tagIds = me.contactInfo['tags'].split(',');
         me.contactInfo['tagsArray'] = [];
         tagIds.map(tagId => {
-          me.tagService.getTagName(tagId).subscribe(tag => {
-            me.contactInfo['tagsArray'].push(tag['data'][0]);
-          });
+          if (tagId.toString() !== '') {
+            me.tagService.getTagName(tagId).subscribe(tag => {
+              me.contactInfo['tagsArray'].push(tag['data'][0]);
+            });
+          }
         });
       }
     });
@@ -442,6 +453,7 @@ export class ChatComponent implements OnInit {
     if (this.selectedTagId === -1) {
       return;
     }
+    this.isAddTag = !this.isAddTag;
     this.tagList.map(tag => {
       if (tag['id'].toString() === me.selectedTagId) {
         me.contactInfo['tags'] = me.contactInfo['tags'] + ',' + me.selectedTagId;
@@ -543,6 +555,37 @@ export class ChatComponent implements OnInit {
 
   changeRating() {
     this.contactService.updateContact(this.contactId, { rating: this.contactInfo['rating'] }).subscribe(data => {
+    });
+  }
+
+  removeTag(id) {
+    var me = this;
+    var contactData = {
+      tags: ''
+    };
+    this.contactInfo['tagsArray'].map(tag => {
+      if (tag.id.toString() !== id.toString()) {
+        contactData.tags += tag.id.toString() + ',';
+        me.showTagList.push(tag);
+      }
+    });
+    if (contactData.tags !== '') {
+      contactData.tags = contactData.tags.slice(0, -1);
+    } else {
+      me.contactInfo['tagsArray'] = [];
+    }
+
+    this.contactInfo['tags'] = contactData.tags;
+
+    this.contactService.updateContact(this.contactId, contactData).subscribe(data => {
+      me.contactInfo['tagsArray'].map((tag, index) => {
+        if (tag.id.toString() !== id.toString()) {
+          me.contactInfo['tagsArray'].splice(index, 1);
+          return;
+        }
+      });
+      me.clickAddTag();
+      me.isAddTag = false;
     });
   }
 

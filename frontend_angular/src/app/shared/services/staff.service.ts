@@ -13,6 +13,7 @@ export class StaffService {
   constructor(
     private http: HttpClient
   ) {
+    this.makeHeader();
   }
 
   makeHeader() {

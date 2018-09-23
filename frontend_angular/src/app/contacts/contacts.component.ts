@@ -16,7 +16,7 @@ import * as enLocale from 'date-fns/locale/en';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  public date = new Date();
+  public date;//new Date();
   options: DatepickerOptions = {
     locale: enLocale,
     addClass: 'form-control',
@@ -84,6 +84,9 @@ export class ContactsComponent implements OnInit {
           contact['tagsArray'] = [];
           contact['tags'] = '';
           tagIds.map(tagId => {
+            if (tagId.toString() === '') {
+              return;
+            }
             me.tagService.getTagName(tagId).subscribe(tag => {
               contact['tagsArray'].push(tag['data'][0]);
               contact['tags'] += tag['data'][0]['name'];
@@ -95,7 +98,11 @@ export class ContactsComponent implements OnInit {
           });
 
           me.actionService.getActionName(contact['actions']).subscribe(action => {
-            contact['actions'] = action['data'][0]['name'];
+            if (action['success'] === 1) {
+              contact['actions'] = action['data'][0]['name'];
+            } else {
+              contact['actions'] = '';
+            }
           });
 
           me.staffService.getStaff(contact['staff']).subscribe(staff => {
@@ -105,7 +112,13 @@ export class ContactsComponent implements OnInit {
           me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
             if (chat['success'] === 1) {
               contact['messages'] = chat['data'][0];
-             me.sort();
+              // console.log(chat['data'][0]);
+              me.sort();
+            } else {
+              contact['messages'] = {
+                message: ''
+              };
+              me.sort();
             }
           });
 
@@ -123,6 +136,9 @@ export class ContactsComponent implements OnInit {
           var sec = (contact['time'] % 60).toString();
           contact['time'] = min + ':' + sec;
           contact['check'] = false;
+          if (!contact['rating']) {
+            contact['rating'] = '';
+          }
         });
 
         me.contactsListShow = me.contactsList;
@@ -251,18 +267,17 @@ export class ContactsComponent implements OnInit {
       if (real_data === 'NaN-NaN-NaN') {
         real_data = '';
       }
-
       return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
         && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
         && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())
         && el.actions.toLowerCase().includes(me.actionsFilter.toLowerCase())
         && el.messages.message.toLowerCase().includes(me.messagesFilter.toLowerCase())
-        // && el.date_of_creation.toLowerCase().includes(me.dateofcreationFilter.toLowerCase())
         && el.date_of_creation.toLowerCase().includes(real_data.toLowerCase())
         && el.staffName.toLowerCase().includes(me.staffFilter.toLowerCase())
         && el.rating.toString().toLowerCase().includes(me.ratingFilter.toLowerCase())
         && el.time.toString().toLowerCase().includes(me.timeFilter.toLowerCase())
-        && el.note.toLowerCase().includes(me.noteFilter.toLowerCase());
+        && el.note.toLowerCase().includes(me.noteFilter.toLowerCase())
+        ;
     });
   }
 
@@ -340,6 +355,10 @@ export class ContactsComponent implements OnInit {
     if (!this.isAdvancedFiltering) {
       this.filter();
     }
+  }
+
+  clearDate() {
+    this.date = null;
   }
 
   ngOnDestroy() {

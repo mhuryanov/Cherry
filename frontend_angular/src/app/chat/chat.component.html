@@ -153,7 +153,7 @@
                 <button class="btn btn-danger" (click)="isAddTag = false;">Cancel</button>
               </p>
               <ul>
-                <li *ngFor="let tag of contactInfo['tagsArray'];">{{tag.name}}</li>
+                <li *ngFor="let tag of contactInfo['tagsArray'];" class="tag-item">{{tag.name}} <i class="fas fa-times tag-item-remove" (click)="removeTag(tag.id)"></i></li>
               </ul>
             </div>
             <div class="col-md-6">

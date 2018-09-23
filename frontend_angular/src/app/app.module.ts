@@ -37,6 +37,7 @@ import { WebsocketService } from './shared/services/websocket.service';
 import { ChatdemoComponent } from './chatdemo/chatdemo.component';
 import { NgDatepickerModule } from 'ng2-datepicker';
 import { WaitinglistComponent } from './dashboard/waitinglist/waitinglist.component';
+import { RequestService } from './shared/services/request.service';
 @NgModule({
   declarations: [
     AppComponent,
@@ -80,7 +81,8 @@ import { WaitinglistComponent } from './dashboard/waitinglist/waitinglist.compon
     LoginService,
     ContactsService,
     ChatService,
-    WebsocketService
+    WebsocketService,
+    RequestService
     // NgbModal
   ],
   bootstrap: [AppComponent]

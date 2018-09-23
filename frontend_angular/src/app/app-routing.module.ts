@@ -62,7 +62,7 @@ const routes: Routes = [
         path: '', redirectTo: '/login', pathMatch: 'full'
     },
     {
-        path: 'chatdemo/:userId',
+        path: 'chat/:userId',
         component: ChatdemoComponent
     }
 ];

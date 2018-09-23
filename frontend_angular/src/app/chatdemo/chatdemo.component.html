@@ -1,12 +1,18 @@
 <div class="container">
   <div class="row" style="margin-top: 20px;">
-    <div class="col-md-3">
+    <!-- <div class="col-md-3">
       <label for="">StaffId</label>
       <input type="text" class="form-control" placeholder="staffId" [(ngModel)]="staffId" disabled>
     </div>
     <div class="col-md-3">
       <label for="">UserId</label>
       <input type="text" class="form-control" placeholder="userId" [(ngModel)]='userId' disabled>
+    </div> -->
+    <div class="col-md-12">
+      <div class="alert alert-success" *ngIf="isShowMessage">
+        <strong>It seems the dating coach is not online now. You can leave your messages here, and he/she will reply you ASAP.</strong>
+      </div>
+      
     </div>
   </div>
   <!-- <div class="row" style="margin-top: 20px;" *ngIf="staffId && userId"> -->
@@ -22,9 +28,9 @@
           
           <div class="message-content">
             <div class="username" *ngIf="chatItem.type == 'userTostaff'">
-              <span *ngFor="let userItem of profileArray;">
-                <span *ngIf="userItem.user_id == chatItem.userId ">{{userItem.first_name + ' '+ userItem.last_name}}</span>
-              </span>
+              
+              <span *ngIf="profile && profile.user_id == chatItem.userId ">{{profile.first_name + ' '+ profile.last_name}}</span>
+            
             </div>
 
             <div class="username" *ngIf="chatItem.type == 'staffTouser'">
@@ -47,6 +53,8 @@
       <input type="text" class="form-control" placeholder="Message" [(ngModel)]="sendMessageStr" (keyup.enter)="sendMessage()">
     </div>
     <div class="col-md-2">
+      <button class="btn btn-default" style="" (click)="selectImage()"><i class="fa fa-image"></i></button>
+      <input type="file" accept=".jpg, .png, .jpeg" id="profile-imgage-upload" style="display: none;" (change)="fileChange($event)">
       <button class="btn btn-success" (click)="sendMessage()">Send</button>
     </div>
   </div>
