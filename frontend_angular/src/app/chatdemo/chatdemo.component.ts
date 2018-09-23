@@ -179,5 +179,5 @@ export class ChatdemoComponent implements OnInit {
         me.chatService.sendMsg(msgdata);
       });
     }
-
+  }
 }
