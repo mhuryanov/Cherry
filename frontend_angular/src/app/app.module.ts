@@ -76,13 +76,14 @@ import { RequestService } from './shared/services/request.service';
     TagService,
     TemplateService,
     StatusService,
-    ActionService,
-    AuthguardService,
     LoginService,
     ContactsService,
     ChatService,
     WebsocketService,
-    RequestService
+    RequestService,
+    ActionService,
+    AuthguardService,
+
     // NgbModal
   ],
   bootstrap: [AppComponent]

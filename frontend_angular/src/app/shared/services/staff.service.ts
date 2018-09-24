@@ -13,7 +13,6 @@ export class StaffService {
   constructor(
     private http: HttpClient
   ) {
-    this.makeHeader();
   }
 
   makeHeader() {
@@ -23,6 +22,8 @@ export class StaffService {
 
   getStaffList() {
     this.makeHeader();
+    console.log('getstaff list');
+    
     return this.http.get(config.baseURL + 'api/' + this.table_name, { headers: this.header });
   }
 

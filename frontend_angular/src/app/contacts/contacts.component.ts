@@ -17,12 +17,20 @@ import * as enLocale from 'date-fns/locale/en';
 })
 export class ContactsComponent implements OnInit {
   public date;//new Date();
+  today = new Date();
+   monthNames = [
+    "January", "February", "March",
+    "April", "May", "June", "July",
+    "August", "September", "October",
+    "November", "December"
+  ];
   options: DatepickerOptions = {
     locale: enLocale,
     addClass: 'form-control',
     addStyle: {width: '100%'},
     displayFormat: 'YYYY-MM-DD',
     placeholder: 'Date of Creation',
+    barTitleIfEmpty: this.monthNames[this.today.getMonth()] + ' ' + this.today.getFullYear(),
     minYear: 2018,
     maxYear: 2100,
   };
@@ -94,7 +102,11 @@ export class ContactsComponent implements OnInit {
           });
 
           me.statusService.getStatusName(contact['status']).subscribe(status => {
-            contact['status'] = status['data'][0]['name'];
+            if (status['success'] === 1 && status['data'].length > 0) {
+              contact['status'] = status['data'][0]['name'];
+            } else {
+              contact['status'] = '';
+            }
           });
 
           me.actionService.getActionName(contact['actions']).subscribe(action => {
@@ -106,7 +118,11 @@ export class ContactsComponent implements OnInit {
           });
 
           me.staffService.getStaff(contact['staff']).subscribe(staff => {
-            contact['staffName'] = staff['data'][0]['name'];
+            if (staff['success'] === 1 && staff['data'].length > 0) {
+              contact['staffName'] = staff['data'][0]['name'];
+            } else {
+              contact['staffName'] = '';
+            }
           });
 
           me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
@@ -179,7 +195,6 @@ export class ContactsComponent implements OnInit {
       var role = localStorage.getItem('role');
       me.contactsList = [];
       me.contactsListShow = [];
-      console.log(me.contactsService);
       me.contactsService.getContacts().subscribe(data => {
         if (data['success'] === 1) {
           data['data'].map(contact => {
@@ -197,6 +212,9 @@ export class ContactsComponent implements OnInit {
             contact['tagsArray'] = [];
             contact['tags'] = '';
             tagIds.map(tagId => {
+              if (tagId.toString() === '') {
+                return;
+              }
               me.tagService.getTagName(tagId).subscribe(tag => {
                 contact['tagsArray'].push(tag['data'][0]);
                 contact['tags'] += tag['data'][0]['name'];
@@ -204,20 +222,38 @@ export class ContactsComponent implements OnInit {
             });
 
             me.statusService.getStatusName(contact['status']).subscribe(status => {
-              contact['status'] = status['data'][0]['name'];
+              if (status['success'] === 1 && status['data'].length > 0) {
+                contact['status'] = status['data'][0]['name'];
+              } else {
+                contact['status'] = '';
+              }
             });
 
             me.actionService.getActionName(contact['actions']).subscribe(action => {
-              contact['actions'] = action['data'][0]['name'];
+              if (action['success'] === 1) {
+                contact['actions'] = action['data'][0]['name'];
+              } else {
+                contact['actions'] = '';
+              }
             });
 
             me.staffService.getStaff(contact['staff']).subscribe(staff => {
-              contact['staffName'] = staff['data'][0]['name'];
+              if (staff['success'] === 1 && staff['data'].length > 0) {
+                contact['staffName'] = staff['data'][0]['name'];
+              } else {
+                contact['staffName'] = '';
+              }
             });
 
             me.chatService.getLastMsg(contact['staff'], contact['user_id']).subscribe(chat => {
               if (chat['success'] === 1) {
                 contact['messages'] = chat['data'][0];
+                // console.log(chat['data'][0]);
+                me.sort();
+              } else {
+                contact['messages'] = {
+                  message: ''
+                };
                 me.sort();
               }
             });
@@ -267,6 +303,10 @@ export class ContactsComponent implements OnInit {
       if (real_data === 'NaN-NaN-NaN') {
         real_data = '';
       }
+
+      console.log(el);
+      
+
       return el.tags.toLowerCase().includes(me.tagFilter.toLowerCase())
         && el.name.toLowerCase().includes(me.searchFilter.toLowerCase())
         && el.status.toLowerCase().includes(me.statusFilter.toLowerCase())

@@ -73,6 +73,8 @@ export class WaitinglistComponent implements OnInit {
 
             e.onclick = function () {
             };
+
+            me.loadRequests();
           }
         });
       }
@@ -119,8 +121,11 @@ export class WaitinglistComponent implements OnInit {
               me.waitingList.push({
                 userId: request['user_id'],
                 image: user['data'][0]['image'],
-                name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name']
+                name: user['data'][0]['first_name'] + ' ' + user['data'][0]['last_name'],
+                created: request['created']
               });
+
+              me.sort();
 
             }
           });
@@ -146,6 +151,17 @@ export class WaitinglistComponent implements OnInit {
       } else {
 
       }
+    });
+  }
+
+  sort() {
+    var me = this;
+    me.waitingList.sort(function (a, b) {
+      var return_val = 0;
+      if (a['created'] > b['created']) { return_val = -1; }
+      if (a['created'] === b['created']) { return_val = 0; }
+      if (a['created'] < b['created']) { return_val = 1; }
+      return return_val;
     });
   }
 

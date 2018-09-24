@@ -20,7 +20,9 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private loginService: LoginService
-  ) { }
+  ) {
+    
+   }
 
   ngOnInit() {
   }
@@ -49,7 +51,7 @@ export class LoginComponent implements OnInit {
 
       if (data['error'] === 0 ) {
         this.isResError = false;
-        this.loginService.token = data['token'];
+        // this.loginService.token = data['token'];
         localStorage.setItem('token', data['token']);
         localStorage.setItem('userId', data['user'].id);
         localStorage.setItem('role', data['user'].role);

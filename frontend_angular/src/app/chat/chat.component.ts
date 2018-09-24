@@ -124,7 +124,7 @@ export class ChatComponent implements OnInit {
           }
         var role = localStorage.getItem('role');
         // alert(role);
-        if (role === '1') {
+        if (chatItem['user_id'].toString() === me.userId.toString() && role === '1') {
           me.chatContentsArray.push({
             type: chatItem['message_type'],
             staffId: chatItem['staff_id'],
@@ -354,7 +354,7 @@ export class ChatComponent implements OnInit {
           });
         }, 1000);
 
-        me.staffService.getStaff(me.staffId).subscribe(staff => {
+        me.staffService.getStaff(me.contactInfo['staff']).subscribe(staff => {
           me.contactInfo['staff'] = staff['data'][0];
           me.staffId = staff['data'][0]['id'];
           // me.contactService.updateContact(me.contactId, { status: 2}).subscribe(data1 => {

@@ -122,4 +122,10 @@ export class ContactsService {
     return this.http.post(config.baseURL + 'api/contactcheck', data);
   }
 
+  getToken() {
+    console.log('get token');
+
+    return this.http.get(config.baseURL + 'users/token');
+  }
+
 }

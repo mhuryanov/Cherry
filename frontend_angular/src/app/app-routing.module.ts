@@ -19,6 +19,9 @@ const routes: Routes = [
     {
         component: LoginComponent,
         path: 'login'
+    }, {
+        component: ChatdemoComponent,
+        path: 'chat/:userId'
     },
     {
         component: DashboardComponent,
@@ -60,10 +63,6 @@ const routes: Routes = [
     },
     {
         path: '', redirectTo: '/login', pathMatch: 'full'
-    },
-    {
-        path: 'chat/:userId',
-        component: ChatdemoComponent
     }
 ];
 

@@ -20,8 +20,8 @@ export class ChatService {
       .map((response: any): any => {
         return response;
       });
-    this.token = localStorage.getItem('token');
-    this.header = new HttpHeaders({ 'token': this.token });
+    // this.token = localStorage.getItem('token');
+    // this.header = new HttpHeaders({ 'token': this.token });
   }
 
   getHeader() {
@@ -39,6 +39,8 @@ export class ChatService {
 
   loadChatContent(staffId, userId) {
     this.getHeader();
+    console.log('load chat content');
+    
     // return this.http.get(config.baseURL + 'api/chat_' + staffId + '_' + userId, {headers: this.header});
     return this.http.get(config.baseURL + 'api/chat', { headers: this.header });
   }

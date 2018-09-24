@@ -9,7 +9,7 @@
       <input type="text" class="form-control" placeholder="userId" [(ngModel)]='userId' disabled>
     </div> -->
     <div class="col-md-12">
-      <div class="alert alert-success" *ngIf="isShowMessage">
+      <div class="alert alert-success" *ngIf="isShowMessage && !isConnected">
         <strong>It seems the dating coach is not online now. You can leave your messages here, and he/she will reply you ASAP.</strong>
       </div>
       

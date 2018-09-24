@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { config} from '../modules/config.model';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class LoginService {
 
-  token;
+  // token;
+  header;
 
   constructor(
     private http: HttpClient
   ) {
-    this.token = localStorage.getItem('token');
+    // this.token = localStorage.getItem('token');
   }
 
   login(userInfo) {
@@ -18,6 +20,7 @@ export class LoginService {
   }
 
   getToken() {
+    
     return this.http.get(config.baseURL + 'users/token');
   }
 }

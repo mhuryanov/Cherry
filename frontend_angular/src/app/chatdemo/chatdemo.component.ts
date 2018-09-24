@@ -26,6 +26,8 @@ export class ChatdemoComponent implements OnInit {
 
   contactList = [];
 
+  isConnected = false;
+
   constructor(
     private chatService: ChatService,
     private activedRoute: ActivatedRoute,
@@ -34,15 +36,19 @@ export class ChatdemoComponent implements OnInit {
     private contactService: ContactsService
   ) {
     var me = this;
-    this.userId = activedRoute.snapshot.params['userId'];
+    this.userId = this.activedRoute.snapshot.params['userId'];
     var token = localStorage.getItem('token');
     if (token) {
       this.preProcess();
     } else {
       this.loginService.getToken().subscribe(tokenData => {
         localStorage.setItem('token', tokenData['token']);
+        // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Mzc3NjkzNjAsImV4cCI6MTUzNzc4Mzc2MH0.9923mcV5sKuquFu0zzzkN_wOyEmoTx0iTC9k9B9X8Tc');
         me.preProcess();
+      }, (error) => {
+        console.log('error', error);
       });
+      // localStorage.setItem('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1Mzc3Njc5MjIsImV4cCI6MTUzNzc4MjMyMn0.TcxJxRJFVT66WHLExhdgHD3qmQHLp1jfSbY2PxC1JpQ');
     }
   }
 
@@ -87,13 +93,9 @@ export class ChatdemoComponent implements OnInit {
         elmnt.scrollIntoView();
       }, 1000);
     });
-  }
 
-  ngOnInit() {
-    var me = this;
-
-    this.contactService.getUserProfile(this.userId).subscribe(profile => {
-      // console.log(profile);
+    me.contactService.getUserProfile(this.userId).subscribe(profile => {
+      console.log(profile);
       if (profile['error'] === 0 && profile['data'].length > 0) {
         me.profile = profile['data'][0];
       } else {
@@ -101,6 +103,32 @@ export class ChatdemoComponent implements OnInit {
       }
     });
 
+    this.contactService.getContacts().subscribe(contacts => {
+      console.log(contacts);
+      if (contacts['success'] === 1) {
+        me.contactList = contacts['data'];
+        var isExist = false;
+        me.contactList.map(contact => {
+          if (contact['user_id'].toString() === me.userId.toString()) {
+            isExist = true;
+          }
+        });
+
+        me.isConnected = isExist;
+        if (!isExist) {
+          me.chatService.sendMsg({
+            type: 'requestchat',
+            userId: this.userId
+          });
+        }
+      }
+    });
+
+    setTimeout(function () { me.isShowMessage = true; }, 5000);
+  }
+
+  ngOnInit() {
+    var me = this;
     this.chatService.messages.subscribe(msg => {
       // if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.staffId.toString() === me.staffId.toString() && msg.text.userId.toString() === me.userId.toString()) {
         if ((msg.text.type === 'userTostaff' || msg.text.type === 'staffTouser') && msg.text.userId.toString() === me.userId.toString()) {
@@ -115,27 +143,6 @@ export class ChatdemoComponent implements OnInit {
         me.staffId =  msg.text.staffId;
       }
     });
-
-    this.contactService.getContacts().subscribe(contacts => {
-      console.log(contacts);
-      if (contacts['success'] === 1) {
-        me.contactList = contacts['data'];
-        var isExist = false;
-        me.contactList.map(contact => {
-          if (contact['user_id'].toString() === me.userId.toString()) {
-            isExist = true;
-          }
-        });
-        if (!isExist) {
-          me.chatService.sendMsg({
-            type: 'requestchat',
-            userId: this.userId
-          });
-        }
-      }
-    });
-
-    setTimeout(function () { me.isShowMessage = true;  }, 5000);
   }
 
   sendMessage() {
